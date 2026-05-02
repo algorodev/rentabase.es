@@ -8,6 +8,7 @@ import TableOfContents from '../components/TableOfContents.astro';
 import NewsletterCTA from '../components/NewsletterCTA.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
 import ShareButtons from '../components/ShareButtons.astro';
+import AuthorBox from '../components/AuthorBox.astro';
 import { generateArticleJsonLd, generateBreadcrumbJsonLd } from '../utils/seo';
 import type { MarkdownHeading } from 'astro';
 
@@ -137,6 +138,9 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
         </div>
       </footer>
     )}
+
+    <!-- Caja de autor -->
+    <AuthorBox />
 
     <!-- Botones de compartir -->
     <ShareButtons url={`/blog/${post.slug}/`} title={title} />
