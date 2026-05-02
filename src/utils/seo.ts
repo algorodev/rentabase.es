@@ -171,3 +171,122 @@ export function generateOrganizationJsonLd() {
     sameAs: [],
   };
 }
+
+/** Genera JSON-LD CollectionPage con la lista de posts (para /blog/) */
+export function generateCollectionPageJsonLd({
+  url,
+  name,
+  description,
+  posts,
+}: {
+  url: string;
+  name: string;
+  description: string;
+  posts: Array<{
+    slug: string;
+    title: string;
+    description: string;
+    pubDate: Date;
+    image?: string;
+  }>;
+}) {
+  const canonicalURL = ensureTrailingSlash(new URL(url, SITE_URL).href);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    description,
+    url: canonicalURL,
+    inLanguage: 'es-ES',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: posts.length,
+      itemListElement: posts.map((p, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: ensureTrailingSlash(new URL(`/blog/${p.slug}`, SITE_URL).href),
+        name: p.title,
+      })),
+    },
+  };
+}
+
+/** Genera JSON-LD AboutPage (para /sobre-nosotros/) */
+export function generateAboutPageJsonLd({
+  url,
+  name,
+  description,
+}: {
+  url: string;
+  name: string;
+  description: string;
+}) {
+  const canonicalURL = ensureTrailingSlash(new URL(url, SITE_URL).href);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name,
+    description,
+    url: canonicalURL,
+    inLanguage: 'es-ES',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    about: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  };
+}
+
+/** Genera JSON-LD WebApplication para /calculadoras/. Cada calculadora se
+ *  describe como una featured part. */
+export function generateCalculatorsJsonLd({
+  url,
+  name,
+  description,
+  calculators,
+}: {
+  url: string;
+  name: string;
+  description: string;
+  calculators: Array<{ id: string; label: string; description: string }>;
+}) {
+  const canonicalURL = ensureTrailingSlash(new URL(url, SITE_URL).href);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name,
+    description,
+    url: canonicalURL,
+    inLanguage: 'es-ES',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    isAccessibleForFree: true,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    hasPart: calculators.map((c) => ({
+      '@type': 'WebApplication',
+      name: c.label,
+      description: c.description,
+      url: `${canonicalURL}#${c.id}`,
+      applicationCategory: 'FinanceApplication',
+    })),
+  };
+}

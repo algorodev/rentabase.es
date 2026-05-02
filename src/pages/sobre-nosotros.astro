@@ -1,5 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { generateAboutPageJsonLd, generateBreadcrumbJsonLd } from '../utils/seo';
+
+const aboutTitle = 'Sobre nosotros';
+const aboutDescription =
+  'Conoce RentaBase: quiénes somos, nuestra misión y por qué creamos contenido sobre inversión, ahorro y fiscalidad en España.';
+
+const aboutJsonLd = generateAboutPageJsonLd({
+  url: '/sobre-nosotros',
+  name: aboutTitle,
+  description: aboutDescription,
+});
+const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+  { name: 'Inicio', url: '/' },
+  { name: aboutTitle, url: '/sobre-nosotros' },
+]);
 
 const principles = [
   {
@@ -38,11 +53,11 @@ const topics = [
 
 <BaseLayout
   seo={{
-    title: 'Sobre nosotros',
-    description:
-      'Conoce RentaBase: quiénes somos, nuestra misión y por qué creamos contenido sobre inversión, ahorro y fiscalidad en España.',
+    title: aboutTitle,
+    description: aboutDescription,
     url: '/sobre-nosotros',
   }}
+  jsonLd={[aboutJsonLd, breadcrumbJsonLd]}
 >
   <!-- Hero -->
   <section class="max-w-6xl mx-auto px-4 pt-12 md:pt-16 pb-10">

@@ -3,6 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import InteresCompuesto from '../components/calculadoras/InteresCompuesto';
 import CalculadoraIRPF from '../components/calculadoras/CalculadoraIRPF';
 import ComparadorFondoETF from '../components/calculadoras/ComparadorFondoETF';
+import { generateCalculatorsJsonLd, generateBreadcrumbJsonLd } from '../utils/seo';
+
+const calculatorsTitle = 'Calculadoras financieras gratuitas';
+const calculatorsDescription =
+  'Calcula el interés compuesto de tu inversión, cuánto pagarás de IRPF por tus ETFs y compara fondos indexados vs ETFs. Herramientas gratuitas para inversores españoles.';
 
 const calculators = [
   {
@@ -33,15 +38,30 @@ const calculators = [
     relatedLabel: 'Diferencias entre fondos indexados y ETFs',
   },
 ] as const;
+
+const calculatorsJsonLd = generateCalculatorsJsonLd({
+  url: '/calculadoras',
+  name: calculatorsTitle,
+  description: calculatorsDescription,
+  calculators: calculators.map((c) => ({
+    id: c.id,
+    label: c.label,
+    description: c.description,
+  })),
+});
+const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+  { name: 'Inicio', url: '/' },
+  { name: 'Calculadoras', url: '/calculadoras' },
+]);
 ---
 
 <BaseLayout
   seo={{
-    title: 'Calculadoras financieras gratuitas | RentaBase',
-    description:
-      'Calcula el interés compuesto de tu inversión, cuánto pagarás de IRPF por tus ETFs y compara fondos indexados vs ETFs. Herramientas gratuitas para inversores españoles.',
+    title: calculatorsTitle,
+    description: calculatorsDescription,
     url: '/calculadoras',
   }}
+  jsonLd={[calculatorsJsonLd, breadcrumbJsonLd]}
 >
   <!-- Hero -->
   <section class="max-w-4xl mx-auto px-4 pt-12 md:pt-16 pb-6 text-center reveal">

@@ -70,15 +70,15 @@ const patternId = `cover-pattern-${category}-${size}`;
     aria-hidden="true"
   ></div>
 
-  <!-- Título -->
-  <div class:list={['relative z-10 h-full flex flex-col justify-end', padding]}>
+  <!-- Título (decorativo, no es heading semántico — el h3 real está en la card) -->
+  <div class:list={['relative z-10 h-full flex flex-col justify-end', padding]} aria-hidden="true">
     <p class:list={['text-[10px] md:text-xs font-semibold uppercase tracking-widest mb-2', s.eyebrow]}>RentaBase</p>
-    <h3 class:list={[
+    <p class:list={[
       'font-display font-bold text-white leading-[1.1]',
       titleSize,
       size === 'card' ? 'line-clamp-3' : 'line-clamp-4',
     ]}>
       {title}
-    </h3>
+    </p>
   </div>
 </div>
