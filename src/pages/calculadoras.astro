@@ -3,6 +3,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import InteresCompuesto from '../components/calculadoras/InteresCompuesto';
 import CalculadoraIRPF from '../components/calculadoras/CalculadoraIRPF';
 import ComparadorFondoETF from '../components/calculadoras/ComparadorFondoETF';
+
+const calculators = [
+  {
+    id: 'interes-compuesto',
+    label: 'Interés compuesto',
+    short: 'Interés',
+    description:
+      'Descubre cuánto puede crecer tu inversión a lo largo del tiempo.',
+    relatedUrl: '/blog/como-empezar-a-invertir-desde-cero/',
+    relatedLabel: 'Cómo empezar a invertir desde cero',
+  },
+  {
+    id: 'irpf',
+    label: 'IRPF sobre ganancias',
+    short: 'IRPF',
+    description:
+      'Calcula cuánto pagarás a Hacienda por la venta de tus inversiones.',
+    relatedUrl: '/blog/como-declarar-etfs-renta-espana/',
+    relatedLabel: 'Cómo declarar ETFs en la renta',
+  },
+  {
+    id: 'fondo-vs-etf',
+    label: 'Fondo indexado vs ETF',
+    short: 'Fondo vs ETF',
+    description:
+      'Compara el resultado final teniendo en cuenta TER y comisiones.',
+    relatedUrl: '/blog/fondos-indexados-vs-etfs-diferencias/',
+    relatedLabel: 'Diferencias entre fondos indexados y ETFs',
+  },
+] as const;
 ---
 
 <BaseLayout
@@ -14,7 +44,7 @@ import ComparadorFondoETF from '../components/calculadoras/ComparadorFondoETF';
   }}
 >
   <!-- Hero -->
-  <section class="max-w-4xl mx-auto px-4 pt-12 md:pt-16 pb-8 text-center reveal">
+  <section class="max-w-4xl mx-auto px-4 pt-12 md:pt-16 pb-6 text-center reveal">
     <span class="inline-block text-xs font-medium tracking-wider uppercase text-verde bg-verde/8 px-3 py-1 rounded-full mb-4">
       Herramientas gratuitas
     </span>
@@ -22,59 +52,153 @@ import ComparadorFondoETF from '../components/calculadoras/ComparadorFondoETF';
       Calculadoras financieras
     </h1>
     <p class="text-texto/65 text-lg max-w-2xl mx-auto">
-      Simula el crecimiento de tu inversión, calcula impuestos sobre tus ganancias
-      y compara fondos indexados con ETFs. Todo en tiempo real y sin registros.
+      Tres herramientas para tomar mejores decisiones con tu dinero. En tiempo real,
+      sin registros y sin guardar tus datos.
     </p>
   </section>
 
-  <!-- Interés Compuesto -->
-  <section class="max-w-4xl mx-auto px-4 py-6 reveal">
-    <div class="bg-white rounded-2xl shadow-sm border border-texto/[0.06] p-6 md:p-8">
-      <h2 class="font-display text-2xl font-bold mb-1">Calculadora de interés compuesto</h2>
-      <p class="text-texto/60 mb-6">
-        Descubre cuánto puede crecer tu inversión a lo largo del tiempo gracias al interés compuesto.
-      </p>
-      <InteresCompuesto client:load />
-      <p class="mt-6 text-sm text-texto/50">
-        ¿Quieres aprender más?
-        <a href="/blog/como-empezar-a-invertir-desde-cero/" class="text-verde hover:underline font-medium">
-          Cómo empezar a invertir desde cero
-        </a>
-      </p>
+  <!-- Tabs sticky -->
+  <nav
+    id="calc-tabs"
+    class="sticky top-16 z-40 bg-fondo/85 backdrop-blur-md border-b border-texto/10"
+    aria-label="Selector de calculadora"
+  >
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex gap-1 overflow-x-auto scrollbar-none -mb-px py-3">
+        {calculators.map((c, i) => (
+          <button
+            type="button"
+            data-calc-tab={c.id}
+            class:list={[
+              'calc-tab shrink-0 px-4 py-2 text-sm font-semibold rounded-lg border transition-all whitespace-nowrap',
+              i === 0 ? 'is-active' : '',
+            ]}
+          >
+            <span class="hidden sm:inline">{c.label}</span>
+            <span class="sm:hidden">{c.short}</span>
+          </button>
+        ))}
+      </div>
     </div>
-  </section>
+  </nav>
 
-  <!-- IRPF -->
-  <section class="max-w-4xl mx-auto px-4 py-6 reveal">
-    <div class="bg-white rounded-2xl shadow-sm border border-texto/[0.06] p-6 md:p-8">
-      <h2 class="font-display text-2xl font-bold mb-1">Calculadora de IRPF sobre ganancias</h2>
-      <p class="text-texto/60 mb-6">
-        Calcula cuánto tendrás que pagar a Hacienda por la venta de tus inversiones.
-      </p>
-      <CalculadoraIRPF client:load />
-      <p class="mt-6 text-sm text-texto/50">
-        ¿Quieres aprender más?
-        <a href="/blog/como-declarar-etfs-renta-espana/" class="text-verde hover:underline font-medium">
-          Cómo declarar ETFs en la renta en España
-        </a>
-      </p>
-    </div>
-  </section>
+  <!-- Paneles de calculadoras -->
+  <div class="max-w-4xl mx-auto px-4 py-8 pb-16 space-y-6">
+    <!-- Interés Compuesto -->
+    <section
+      data-calc-panel="interes-compuesto"
+      aria-labelledby="title-interes-compuesto"
+      class="reveal"
+    >
+      <div class="bg-white rounded-2xl shadow-sm border border-texto/[0.06] p-6 md:p-8">
+        <header class="mb-6">
+          <h2 id="title-interes-compuesto" class="font-display text-2xl font-bold mb-1">Calculadora de interés compuesto</h2>
+          <p class="text-texto/60">{calculators[0].description}</p>
+        </header>
+        <InteresCompuesto client:load />
+        <p class="mt-6 text-sm text-texto/60">
+          ¿Quieres aprender más?
+          <a href={calculators[0].relatedUrl} class="text-verde hover:underline font-medium">
+            {calculators[0].relatedLabel}
+          </a>
+        </p>
+      </div>
+    </section>
 
-  <!-- Comparador Fondo vs ETF -->
-  <section class="max-w-4xl mx-auto px-4 py-6 pb-16 reveal">
-    <div class="bg-white rounded-2xl shadow-sm border border-texto/[0.06] p-6 md:p-8">
-      <h2 class="font-display text-2xl font-bold mb-1">Comparador: Fondo indexado vs ETF</h2>
-      <p class="text-texto/60 mb-6">
-        Compara el resultado final de invertir en un fondo indexado frente a un ETF teniendo en cuenta comisiones.
-      </p>
-      <ComparadorFondoETF client:load />
-      <p class="mt-6 text-sm text-texto/50">
-        ¿Quieres aprender más?
-        <a href="/blog/fondos-indexados-vs-etfs-diferencias/" class="text-verde hover:underline font-medium">
-          Fondos indexados vs ETFs: diferencias
-        </a>
-      </p>
-    </div>
-  </section>
+    <!-- IRPF -->
+    <section
+      data-calc-panel="irpf"
+      aria-labelledby="title-irpf"
+      class="reveal hidden"
+    >
+      <div class="bg-white rounded-2xl shadow-sm border border-texto/[0.06] p-6 md:p-8">
+        <header class="mb-6">
+          <h2 id="title-irpf" class="font-display text-2xl font-bold mb-1">Calculadora de IRPF sobre ganancias</h2>
+          <p class="text-texto/60">{calculators[1].description}</p>
+        </header>
+        <CalculadoraIRPF client:load />
+        <p class="mt-6 text-sm text-texto/60">
+          ¿Quieres aprender más?
+          <a href={calculators[1].relatedUrl} class="text-verde hover:underline font-medium">
+            {calculators[1].relatedLabel}
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Comparador Fondo vs ETF -->
+    <section
+      data-calc-panel="fondo-vs-etf"
+      aria-labelledby="title-fondo-vs-etf"
+      class="reveal hidden"
+    >
+      <div class="bg-white rounded-2xl shadow-sm border border-texto/[0.06] p-6 md:p-8">
+        <header class="mb-6">
+          <h2 id="title-fondo-vs-etf" class="font-display text-2xl font-bold mb-1">Comparador: Fondo indexado vs ETF</h2>
+          <p class="text-texto/60">{calculators[2].description}</p>
+        </header>
+        <ComparadorFondoETF client:load />
+        <p class="mt-6 text-sm text-texto/60">
+          ¿Quieres aprender más?
+          <a href={calculators[2].relatedUrl} class="text-verde hover:underline font-medium">
+            {calculators[2].relatedLabel}
+          </a>
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .calc-tab {
+      border-color: rgba(17, 17, 19, 0.1);
+      color: rgba(17, 17, 19, 0.6);
+      background: white;
+    }
+    .calc-tab:hover {
+      border-color: rgba(40, 63, 59, 0.3);
+      color: #283F3B;
+    }
+    .calc-tab.is-active {
+      border-color: #283F3B;
+      background: #283F3B;
+      color: white;
+    }
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { scrollbar-width: none; }
+  </style>
+
+  <script>
+    const tabs = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-calc-tab]')
+    );
+    const panels = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-calc-panel]')
+    );
+
+    const select = (id: string, opts: { scroll?: boolean } = {}) => {
+      tabs.forEach((t) => t.classList.toggle('is-active', t.dataset.calcTab === id));
+      panels.forEach((p) => p.classList.toggle('hidden', p.dataset.calcPanel !== id));
+      if (opts.scroll) {
+        const tabsBar = document.getElementById('calc-tabs');
+        if (tabsBar) {
+          const y = tabsBar.getBoundingClientRect().top + window.scrollY - 56;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }
+      history.replaceState(null, '', `#${id}`);
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const id = tab.dataset.calcTab;
+        if (id) select(id, { scroll: true });
+      });
+    });
+
+    // Sincroniza con hash inicial
+    const hash = window.location.hash.replace('#', '');
+    if (hash && tabs.some((t) => t.dataset.calcTab === hash)) {
+      select(hash);
+    }
+  </script>
 </BaseLayout>
