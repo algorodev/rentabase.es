@@ -6,6 +6,7 @@ import AdBanner from '../components/AdBanner.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import NewsletterCTA from '../components/NewsletterCTA.astro';
+import RelatedPosts from '../components/RelatedPosts.astro';
 import { generateArticleJsonLd, generateBreadcrumbJsonLd } from '../utils/seo';
 import type { MarkdownHeading } from 'astro';
 
@@ -135,6 +136,9 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
         </div>
       </footer>
     )}
+
+    <!-- Artículos relacionados -->
+    <RelatedPosts current={post} />
 
     <!-- CTA Newsletter después del artículo -->
     <div class="mt-14">

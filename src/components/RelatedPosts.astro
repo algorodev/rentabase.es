@@ -1,0 +1,46 @@
+---
+/**
+ * Bloque de artículos relacionados.
+ * Selecciona hasta 3 posts del mismo o categorías afines, ordenados por
+ * número de tags compartidos con el post actual.
+ */
+import { getCollection, type CollectionEntry } from 'astro:content';
+import ArticleCard from './ArticleCard.astro';
+
+interface Props {
+  current: CollectionEntry<'blog'>;
+}
+
+const { current } = Astro.props;
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const currentTags = new Set(current.data.tags);
+
+const scored = allPosts
+  .filter((p) => p.slug !== current.slug)
+  .map((p) => {
+    const sharedTags = p.data.tags.filter((t) => currentTags.has(t)).length;
+    const sameCategory = p.data.category === current.data.category ? 1 : 0;
+    return { post: p, score: sharedTags * 2 + sameCategory };
+  })
+  .sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf();
+  });
+
+const related = scored.slice(0, 3).map((s) => s.post);
+---
+
+{related.length > 0 && (
+  <section class="mt-16 pt-12 border-t border-texto/10" aria-label="Artículos relacionados">
+    <div class="flex items-baseline justify-between mb-6">
+      <h2 class="font-display text-2xl font-bold">Sigue leyendo</h2>
+      <a href="/blog" class="text-sm text-verde font-semibold hover:underline underline-offset-4">Ver todos &rarr;</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {related.map((post) => (
+        <ArticleCard post={post} />
+      ))}
+    </div>
+  </section>
+)}
