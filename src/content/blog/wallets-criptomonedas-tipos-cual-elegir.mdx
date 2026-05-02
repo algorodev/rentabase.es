@@ -9,9 +9,13 @@ draft: true
 
 ## Si no son tus llaves, no son tus criptomonedas
 
+Aprendí la lección de las wallets de la forma más incómoda: tenía una cantidad considerable de ETH en FTX cuando quebró. No perdí todo porque por suerte había movido la mayoría a una wallet propia semanas antes, pero el susto fue suficiente para tomarme la custodia en serio desde entonces. 'Not your keys, not your coins' pasó de ser un eslogan a una regla que sigo sin excepciones.
+
 "Not your keys, not your coins." Es la frase más repetida en el mundo cripto, y tiene sentido. Cuando compras criptomonedas en un exchange y las dejas allí, técnicamente no las posees tú. Las posee el exchange en tu nombre.
 
 Si el exchange quiebra, es hackeado o decide congelar tu cuenta, puedes perder el acceso a tus fondos. FTX fue el ejemplo más doloroso, pero no fue el único.
+
+Para reducir el riesgo de tener demasiado concentrado en un exchange, la estrategia de DCA te permite acumular gradualmente y mover a wallet propia de forma periódica, te explico cómo en la [guía de DCA en criptomonedas](/blog/dca-criptomonedas-estrategia-reducir-riesgo).
 
 Una wallet (billetera) te permite tomar el control real de tus criptomonedas. Tú guardas las claves privadas y nadie puede impedirte acceder a tus fondos.
 
@@ -25,6 +29,8 @@ Cuando configuras una wallet, recibes:
 - **Clave privada**: como el PIN de tu tarjeta. Nunca la compartas con nadie.
 - **Seed phrase** (frase semilla): 12 o 24 palabras que te permiten recuperar tu wallet si pierdes el dispositivo. Es tu backup definitivo.
 
+La distinción entre clave pública y privada es la que más confunde al principio. La clave pública es como tu IBAN, la puedes compartir libremente para recibir dinero. La clave privada es como el PIN de tu tarjeta combinado con la tarjeta física, quien la tenga puede mover todos tus fondos sin necesitar nada más. Y la seed phrase es como tener una copia maestra de todo: con esas 12 o 24 palabras se puede reconstruir tu wallet completa en cualquier dispositivo.
+
 ## Tipos de wallets
 
 ### Hot wallets (conectadas a internet)
@@ -33,6 +39,9 @@ Son aplicaciones instaladas en tu móvil o tu ordenador. Cómodas y fáciles de 
 
 **Ejemplos populares:**
 - **MetaMask**: la más usada para Ethereum y redes compatibles (EVM). Disponible como extensión de navegador y app móvil.
+
+MetaMask es la wallet que más uso para interactuar con DeFi en Ethereum. Funciona bien pero tiene una pega importante: al ser tan popular, es el objetivo número uno de phishing. Asegúrate de descargarla solo desde metamask.io oficial y nunca introduzcas tu seed phrase en ningún sitio que no sea la propia app durante una recuperación. Hay extensiones falsas que roban wallets, verifica siempre la URL y el número de descargas.
+
 - **Rabby**: alternativa a MetaMask con mejor interfaz y simulación de transacciones.
 - **Phantom**: la wallet de referencia para Solana.
 
@@ -47,6 +56,8 @@ Dispositivos físicos que almacenan tus claves privadas offline. La forma más s
 - **Trezor** (Model T, Safe 3): código abierto y con buena reputación de seguridad.
 
 **Ideal para**: cantidades grandes que piensas mantener a largo plazo (HODL).
+
+Entre Ledger y Trezor, mi recomendación personal es Trezor si la seguridad es tu prioridad absoluta, su código es completamente abierto y auditado públicamente. Ledger tiene más funcionalidades y mejor interfaz, pero tuvo un incidente de seguridad en 2020 donde filtraron datos de clientes y en 2023 generó controversia con una actualización de firmware. Ninguno es perfecto, pero ambos son infinitamente más seguros que dejar fondos en un exchange.
 
 ### Custodial wallets (en exchanges)
 
@@ -76,6 +87,8 @@ Instala una hot wallet como MetaMask o Rabby. Transfiere parte de tus fondos y a
 ### Si tienes una cantidad significativa
 Invierte en una hardware wallet (Ledger o Trezor). El coste de 60-200€ es irrelevante comparado con la seguridad que aporta para proteger miles de euros.
 
+Una regla que me parece útil para decidir cuándo comprar una hardware wallet: cuando el valor de tus criptomonedas supere 10 veces el coste de la hardware wallet. Si tienes más de 600-2.000€ en cripto, una Ledger o Trezor ya tiene sentido económicamente. Por debajo de eso, una hot wallet bien gestionada es suficiente.
+
 ## Errores fatales que debes evitar
 
 - **Perder tu seed phrase**: sin ella, pierdes acceso a tus fondos para siempre. No hay servicio de atención al cliente que pueda ayudarte.
@@ -84,11 +97,17 @@ Invierte en una hardware wallet (Ledger o Trezor). El coste de 60-200€ es irre
 - **No probar con cantidades pequeñas**: antes de enviar una cantidad grande a una dirección nueva, haz una transacción de prueba con una cantidad mínima.
 - **Firmar transacciones sin entenderlas**: en DeFi, un smart contract malicioso puede vaciar tu wallet si apruebas la transacción equivocada.
 
+Si haces staking desde tu propia wallet, este riesgo es especialmente relevante, te explico cómo funciona el staking de forma segura en la [guía de staking de criptomonedas](/blog/staking-criptomonedas-ingresos-pasivos).
+
+La seed phrase en papel es el mínimo. Si quieres ir un paso más allá, existen placas de acero inoxidable donde puedes grabar las palabras, resisten fuego, agua y prácticamente cualquier desastre físico. Para cantidades importantes, merece la pena la inversión de 30-50€ que cuestan. He visto gente perder acceso a wallets porque el papel donde tenían la seed phrase se mojó o se quemó.
+
 ## La seguridad es un espectro
 
 No necesitas la seguridad máxima para todo. Piensa en tus wallets como en tus cuentas del día a día: llevas algo de efectivo en la cartera para gastos rápidos (hot wallet) y el grueso de tus ahorros en el banco o una caja fuerte (hardware wallet).
 
 La clave es encontrar el equilibrio entre seguridad y comodidad que se adapte a tu situación.
+
+Si tuvieras que hacer una sola cosa después de leer esto: mueve al menos el 80% de tus criptomonedas fuera del exchange a una wallet donde controles las claves. Si no tienes hardware wallet, una hot wallet como MetaMask o Phantom es mejor que nada. Y escribe tu seed phrase en papel ahora mismo, no mañana, ahora.
 
 ## Referencias
 
