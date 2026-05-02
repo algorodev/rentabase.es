@@ -1,0 +1,84 @@
+---
+/**
+ * Portada generada por categoría: muestra el título del artículo sobre un
+ * fondo con gradiente y patrón decorativo del color de su categoría.
+ * Sustituye al placeholder "RB" cuando no hay imagen de portada.
+ */
+
+interface Props {
+  title: string;
+  category: 'inversion' | 'ahorro' | 'cripto' | 'fiscalidad';
+  size?: 'card' | 'featured';
+}
+
+const { title, category, size = 'card' } = Astro.props;
+
+const styles: Record<
+  Props['category'],
+  { gradient: string; eyebrow: string; pattern: string; blob: string }
+> = {
+  inversion: {
+    gradient: 'from-verde via-verde to-texto/95',
+    eyebrow: 'text-acento/70',
+    pattern: 'rgba(218, 250, 52, 0.18)',
+    blob: 'rgba(218, 250, 52, 0.35)',
+  },
+  ahorro: {
+    gradient: 'from-blue-700 via-blue-800 to-blue-900',
+    eyebrow: 'text-blue-200/80',
+    pattern: 'rgba(191, 219, 254, 0.2)',
+    blob: 'rgba(147, 197, 253, 0.35)',
+  },
+  cripto: {
+    gradient: 'from-orange-500 via-orange-600 to-orange-800',
+    eyebrow: 'text-orange-100/80',
+    pattern: 'rgba(254, 215, 170, 0.22)',
+    blob: 'rgba(253, 186, 116, 0.35)',
+  },
+  fiscalidad: {
+    gradient: 'from-purple-700 via-purple-800 to-purple-900',
+    eyebrow: 'text-purple-200/80',
+    pattern: 'rgba(216, 180, 254, 0.2)',
+    blob: 'rgba(192, 132, 252, 0.35)',
+  },
+};
+
+const s = styles[category];
+const titleSize =
+  size === 'featured'
+    ? 'text-3xl md:text-4xl lg:text-5xl'
+    : 'text-xl md:text-2xl';
+const padding = size === 'featured' ? 'p-8 md:p-12' : 'p-5';
+const patternId = `cover-pattern-${category}-${size}`;
+---
+
+<div class:list={['relative w-full h-full overflow-hidden bg-gradient-to-br', s.gradient]}>
+  <!-- Patrón decorativo -->
+  <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <pattern id={patternId} width="40" height="40" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="2" r="1.4" fill={s.pattern} />
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill={`url(#${patternId})`} />
+  </svg>
+
+  <!-- Halo decorativo en esquina -->
+  <div
+    class="absolute -bottom-16 -right-16 w-56 h-56 rounded-full blur-3xl pointer-events-none"
+    style={`background-color: ${s.blob}`}
+    aria-hidden="true"
+  ></div>
+
+  <!-- Título -->
+  <div class:list={['relative z-10 h-full flex flex-col justify-end', padding]}>
+    <p class:list={['text-[10px] md:text-xs font-semibold uppercase tracking-widest mb-2', s.eyebrow]}>RentaBase</p>
+    <h3 class:list={[
+      'font-display font-bold text-white leading-[1.1]',
+      titleSize,
+      size === 'card' ? 'line-clamp-3' : 'line-clamp-4',
+    ]}>
+      {title}
+    </h3>
+  </div>
+</div>

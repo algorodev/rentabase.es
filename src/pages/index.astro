@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import CategoryBadge from '../components/CategoryBadge.astro';
+import ArticleCover from '../components/ArticleCover.astro';
 import NewsletterCTA from '../components/NewsletterCTA.astro';
 
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
@@ -98,10 +99,14 @@ const categoryIcons = {
         <a href={"/blog/" + featuredPost.slug} class="group block relative rounded-2xl bg-white border border-texto/8 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
           <div class="grid md:grid-cols-2 gap-0">
             <!-- Lado visual -->
-            <div class="aspect-[4/3] md:aspect-auto bg-gradient-to-br from-verde/10 via-acento/5 to-verde/5 flex items-center justify-center p-12">
-              <div class="text-center">
+            <div class="aspect-[4/3] md:aspect-auto relative overflow-hidden">
+              <ArticleCover
+                title={featuredPost.data.title}
+                category={featuredPost.data.category}
+                size="featured"
+              />
+              <div class="absolute top-5 left-5 z-10">
                 <CategoryBadge category={featuredPost.data.category} />
-                <div class="mt-4 font-display text-6xl md:text-8xl font-bold text-verde/10 select-none" aria-hidden="true">01</div>
               </div>
             </div>
             <!-- Contenido -->
