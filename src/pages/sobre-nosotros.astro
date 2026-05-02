@@ -1,47 +1,173 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const principles = [
+  {
+    title: 'Información clara, sin jerga',
+    body:
+      'Las finanzas no tienen por qué ser complicadas. Cada artículo se escribe pensando en alguien que está aprendiendo, no en impresionar con tecnicismos.',
+    icon: 'M3 7l9-4 9 4-9 4-9-4zm0 6l9 4 9-4M3 17l9 4 9-4',
+  },
+  {
+    title: 'Experiencia personal, no teoría',
+    body:
+      'Cuento lo que he aprendido gestionando mis propias finanzas: qué brokers uso, qué errores he cometido, qué números reales he visto en abril cuando llega Hacienda.',
+    icon: 'M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12 12 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12 12 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222',
+  },
+  {
+    title: 'Sin venderte nada',
+    body:
+      'No tengo afiliados, no cobro comisiones por recomendar productos, no vendo cursos. Si menciono una herramienta es porque la uso o la usaría.',
+    icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z',
+  },
+  {
+    title: 'Adaptado a España',
+    body:
+      'Casi toda la información financiera disponible en español viene de Latinoamérica o EEUU. Aquí todo está pensado para residentes fiscales en España: IRPF, modelos 720/721, brokers operativos en España.',
+    icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+];
+
+const topics = [
+  { label: 'Inversión', desc: 'ETFs, fondos indexados, brokers, estrategias' },
+  { label: 'Ahorro', desc: 'Presupuestos, fondo de emergencia, cuentas remuneradas' },
+  { label: 'Fiscalidad', desc: 'IRPF, declaración de la renta, compensación de pérdidas' },
+  { label: 'Criptomonedas', desc: 'Bitcoin, Ethereum, fiscalidad, wallets, staking' },
+];
 ---
 
 <BaseLayout
   seo={{
     title: 'Sobre nosotros',
-    description: 'Conoce RentaBase: quiénes somos, nuestra misión y por qué creamos contenido sobre inversión, ahorro y fiscalidad en España.',
+    description:
+      'Conoce RentaBase: quiénes somos, nuestra misión y por qué creamos contenido sobre inversión, ahorro y fiscalidad en España.',
     url: '/sobre-nosotros',
   }}
 >
-  <section class="max-w-3xl mx-auto px-4 py-12 md:py-16">
-    <h1 class="font-display text-4xl md:text-5xl font-bold mb-8">Sobre nosotros</h1>
-
-    <div class="space-y-6 text-texto/80 leading-relaxed">
-      <p>
-        <strong class="text-texto">RentaBase</strong> nace con una misión clara: hacer que la información
-        financiera sea accesible, comprensible y útil para cualquier persona en España que quiera
-        tomar mejores decisiones con su dinero.
+  <!-- Hero -->
+  <section class="max-w-6xl mx-auto px-4 pt-12 md:pt-16 pb-10">
+    <div class="max-w-3xl">
+      <span class="inline-block text-xs font-semibold tracking-widest uppercase text-verde bg-verde/8 px-3 py-1 rounded-full mb-5">
+        Sobre el proyecto
+      </span>
+      <h1 class="font-display text-4xl md:text-5xl font-bold leading-[1.1] mb-5">
+        Finanzas personales explicadas como
+        <span class="text-verde">a un amigo en una cafetería</span>.
+      </h1>
+      <p class="text-lg text-texto/70 leading-relaxed">
+        RentaBase es un proyecto personal para compartir lo que he ido aprendiendo
+        sobre inversión, ahorro y fiscalidad en España. Sin asesoría profesional, sin
+        venderte productos, sin titulares sensacionalistas. Solo lo que me gustaría
+        haber leído yo cuando empecé.
       </p>
+    </div>
+  </section>
 
-      <p>
-        Creemos que la educación financiera no debería ser un privilegio. Desde ETFs y fondos
-        indexados hasta la declaración de la renta, pasando por estrategias de ahorro y el
-        mundo de las criptomonedas, cubrimos los temas que realmente importan al inversor
-        particular español.
+  <!-- Tarjeta autor / proyecto -->
+  <section class="max-w-6xl mx-auto px-4 pb-10">
+    <div class="rounded-2xl bg-gradient-to-br from-verde via-verde to-texto/95 text-white p-6 md:p-10 relative overflow-hidden">
+      <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-acento/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
+      <div class="relative flex flex-col sm:flex-row sm:items-center gap-6">
+        <div class="shrink-0">
+          <div class="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur flex items-center justify-center border border-white/15">
+            <img src="/assets/rentabase-isotipo-white.svg" alt="" class="h-10 w-10" aria-hidden="true" />
+          </div>
+        </div>
+        <div class="flex-1">
+          <p class="text-xs font-semibold uppercase tracking-widest text-acento/80 mb-1.5">Detrás de RentaBase</p>
+          <h2 class="font-display text-2xl md:text-3xl font-bold mb-2">Un inversor particular contando lo que aprende</h2>
+          <p class="text-white/75 leading-relaxed max-w-2xl">
+            Llevo más de una década gestionando mis propias finanzas en España: ETFs en MyInvestor y
+            DEGIRO, criptomonedas en hardware wallet, declaraciones de renta con activos en el extranjero.
+            RentaBase es donde voy escribiendo lo que ojalá hubiera tenido cuando empecé.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Principios -->
+  <section class="max-w-6xl mx-auto px-4 pb-10">
+    <h2 class="font-display text-2xl md:text-3xl font-bold mb-8">En qué se diferencia este blog</h2>
+    <div class="grid md:grid-cols-2 gap-5">
+      {principles.map((p) => (
+        <div class="rounded-2xl bg-white border border-texto/8 shadow-sm p-6">
+          <div class="w-10 h-10 rounded-lg bg-verde/8 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={p.icon} />
+            </svg>
+          </div>
+          <h3 class="font-display text-lg font-bold mb-2">{p.title}</h3>
+          <p class="text-texto/65 leading-relaxed text-sm">{p.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Temas -->
+  <section class="max-w-6xl mx-auto px-4 pb-10">
+    <div class="rounded-2xl bg-white border border-texto/8 shadow-sm p-6 md:p-8">
+      <h2 class="font-display text-2xl md:text-3xl font-bold mb-2">Sobre qué escribimos</h2>
+      <p class="text-texto/60 mb-6">Cuatro áreas, todas conectadas con la realidad fiscal española.</p>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {topics.map((t) => (
+          <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-texto/[0.02] transition-colors">
+            <span class="mt-1 w-2 h-2 rounded-full bg-verde shrink-0" aria-hidden="true"></span>
+            <div>
+              <p class="font-semibold text-texto">{t.label}</p>
+              <p class="text-sm text-texto/60">{t.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Aviso legal -->
+  <section class="max-w-6xl mx-auto px-4 pb-16">
+    <div class="rounded-2xl border border-amber-200 bg-amber-50/60 p-6 md:p-8">
+      <div class="flex items-start gap-4">
+        <svg class="w-6 h-6 text-amber-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <div>
+          <h2 class="font-display text-lg font-bold text-amber-900 mb-2">Aviso legal</h2>
+          <p class="text-amber-900/85 text-sm leading-relaxed">
+            La información publicada en RentaBase tiene carácter meramente informativo y educativo.
+            No constituye asesoramiento financiero, fiscal ni de inversión profesional. Antes de
+            tomar cualquier decisión financiera, consulta con un profesional cualificado. La fiscalidad
+            depende de cada situación personal y la normativa puede cambiar.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="max-w-6xl mx-auto px-4 pb-16">
+    <div class="text-center">
+      <h2 class="font-display text-2xl md:text-3xl font-bold mb-3">¿Por dónde empezar?</h2>
+      <p class="text-texto/65 max-w-xl mx-auto mb-6">
+        Si nunca has invertido, una buena puerta de entrada. Si vienes a entender Hacienda,
+        otra. Sin orden obligatorio.
       </p>
-
-      <h2 class="font-display text-2xl font-bold text-texto mt-10">Nuestra filosofía</h2>
-
-      <p>
-        No damos consejos de inversión personalizados. Lo que sí ofrecemos es información
-        rigurosa, actualizada y explicada de forma que cualquiera pueda entenderla. Cada
-        artículo está escrito pensando en el lector que quiere aprender, no en impresionar
-        con jerga financiera.
-      </p>
-
-      <h2 class="font-display text-2xl font-bold text-texto mt-10">Aviso legal</h2>
-
-      <p>
-        La información publicada en RentaBase tiene carácter meramente informativo y educativo.
-        No constituye asesoramiento financiero, fiscal ni de inversión profesional. Antes de
-        tomar cualquier decisión financiera, consulta con un profesional cualificado.
-      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a
+          href="/blog/como-empezar-a-invertir-desde-cero/"
+          class="inline-flex items-center gap-2 px-5 py-3 bg-verde text-white font-semibold rounded-xl hover:bg-verde/90 transition-all hover:shadow-lg hover:shadow-verde/20 hover:-translate-y-0.5"
+        >
+          Cómo empezar a invertir
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a
+          href="/blog/guia-fiscal-inversor-principiante-espana/"
+          class="inline-flex items-center gap-2 px-5 py-3 border border-texto/15 text-texto/75 font-medium rounded-xl hover:border-verde/30 hover:text-verde transition-all"
+        >
+          Guía fiscal para inversores
+        </a>
+      </div>
     </div>
   </section>
 </BaseLayout>
