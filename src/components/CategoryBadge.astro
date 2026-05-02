@@ -9,9 +9,9 @@ const { category } = Astro.props;
 
 const categoryConfig: Record<string, { label: string; classes: string }> = {
   inversion: { label: 'Inversión', classes: 'bg-verde/10 text-verde' },
-  ahorro: { label: 'Ahorro', classes: 'bg-verde/10 text-verde' },
-  cripto: { label: 'Criptomonedas', classes: 'bg-purple-100 text-purple-700' },
-  fiscalidad: { label: 'Fiscalidad', classes: 'bg-blue-100 text-blue-700' },
+  ahorro: { label: 'Ahorro', classes: 'bg-blue-100 text-blue-700' },
+  cripto: { label: 'Criptomonedas', classes: 'bg-orange-100 text-orange-700' },
+  fiscalidad: { label: 'Fiscalidad', classes: 'bg-purple-100 text-purple-700' },
 };
 
 const config = categoryConfig[category];
