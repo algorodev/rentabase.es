@@ -9,6 +9,8 @@ draft: true
 
 ## Hacer que tus criptomonedas trabajen por ti
 
+Cuando empecé a tener ETH en cartera, lo tenía simplemente guardado en un wallet sin hacer nada. Un día calculé cuánto había dejado de ganar en recompensas de staking durante dos años. No era una cantidad enorme, pero era suficiente para haberme dado un buen disgusto. Desde entonces, cualquier criptomoneda que planeo mantener a largo plazo la pongo a trabajar.
+
 Si tienes criptomonedas guardadas en un wallet sin hacer nada, el staking es una forma de ponerlas a trabajar. Es el equivalente cripto de un depósito a plazo: bloqueas tus monedas durante un período y recibes recompensas a cambio.
 
 Pero a diferencia de un depósito bancario, aquí no hay un banco detrás. Las recompensas vienen de la propia red blockchain por tu contribución a su seguridad y funcionamiento.
@@ -21,6 +23,8 @@ Si te comportas correctamente y validas transacciones legítimas, recibes recomp
 
 Para la mayoría de personas, no necesitas montar tu propio nodo validador. Puedes delegar tu stake a un validador existente y recibir una parte proporcional de las recompensas.
 
+La forma más sencilla de entenderlo: imagina que la red blockchain es una empresa que necesita auditores para verificar sus transacciones. Tú pones tu dinero como fianza para ser auditor, haces el trabajo correctamente y recibes una comisión. Si intentas hacer trampa, pierdes la fianza. Es un sistema de incentivos que funciona sin necesitar confiar en nadie, solo en el código.
+
 ## Rentabilidades típicas
 
 Las rentabilidades varían mucho según la criptomoneda y la plataforma:
@@ -32,6 +36,8 @@ Las rentabilidades varían mucho según la criptomoneda y la plataforma:
 | Polkadot (DOT) | 10-14% |
 | Cardano (ADA) | 3-5% |
 | Cosmos (ATOM) | 15-20% |
+
+La columna que falta en esta tabla es la rentabilidad en euros, que es la única que importa realmente. Un 15% anual en ATOM suena fantástico hasta que ves que ATOM ha perdido un 80% de su valor en dólares en los últimos dos años. Mi regla: solo considero el staking en criptomonedas que mantendría igualmente sin las recompensas. ETH y SOL están en esa lista. La mayoría de las demás, no.
 
 **Importante**: estas rentabilidades son en la propia criptomoneda, no en euros. Si haces staking de ETH al 4% y el precio de ETH cae un 50%, estás perdiendo dinero en términos reales aunque hayas ganado más ETH.
 
@@ -53,6 +59,8 @@ Protocolos como Lido o Rocket Pool te permiten hacer staking de cualquier cantid
 **Pros**: sin mínimo, mantienes liquidez, composabilidad con DeFi.
 **Contras**: riesgo de smart contract, comisión del protocolo (normalmente 10% de las recompensas).
 
+Lido es el protocolo de liquid staking más grande de Ethereum y el que más uso personalmente. La mecánica es simple: depositas ETH, recibes stETH en la misma cantidad, y ese stETH va acumulando recompensas automáticamente. Puedes usarlo en DeFi o simplemente mantenerlo. El riesgo principal es el de smart contract, si hay un bug en Lido, los fondos podrían estar en peligro. Por eso no pondría más del 30-40% de mi ETH en liquid staking.
+
 ### 3. Staking en exchanges
 
 Plataformas como Kraken, Coinbase o Binance ofrecen staking con un par de clics. Ellos gestionan todo y te pagan las recompensas.
@@ -60,27 +68,39 @@ Plataformas como Kraken, Coinbase o Binance ofrecen staking con un par de clics.
 **Pros**: extremadamente fácil, sin conocimientos técnicos.
 **Contras**: "not your keys, not your coins" (confías en el exchange), comisiones más altas, menor transparencia.
 
+Mi opinión sobre el staking en exchanges es clara: evítalo si puedes, especialmente en exchanges no europeos. El caso FTX demostró que 'tu cripto en el exchange' puede desaparecer de un día para otro. Si usas staking en exchange, que sea en plataformas reguladas en Europa como Kraken, y aun así, con cantidades que puedas permitirte perder. La comodidad tiene un precio que a veces es demasiado alto.
+
 ## Riesgos del staking
 
-- **Riesgo de mercado**: la criptomoneda puede perder valor más rápido de lo que ganas en recompensas.
+- **Riesgo de mercado**: la criptomoneda puede perder valor más rápido de lo que ganas en recompensas. Para reducir el riesgo de entrada, la estrategia de DCA es más efectiva que invertir todo de golpe, te explico cómo en la [guía de DCA en criptomonedas](/blog/dca-criptomonedas-estrategia-reducir-riesgo).
 - **Riesgo de slashing**: si el validador al que delegas se comporta mal, puedes perder parte de tu stake.
 - **Riesgo de smart contract**: en liquid staking, un bug en el protocolo puede resultar en pérdida de fondos.
 - **Riesgo de liquidez**: en algunos protocolos, deshacer el staking tiene un período de espera (en Ethereum, la cola puede tardar días o semanas).
 - **Riesgo del exchange**: si haces staking en un exchange y este quiebra (caso FTX), puedes perder todo.
 
+El riesgo que más subestima la gente: imagina que haces staking de una criptomoneda al 10% anual y en ese año el activo cae un 40%. Has ganado un 10% en tokens pero has perdido un 40% en euros. Resultado: pérdida neta del 34% aproximadamente. Las recompensas de staking no son un escudo contra la volatilidad del mercado, son un pequeño colchón en el mejor de los casos.
+
 ## Fiscalidad del staking en España
 
 Las recompensas de staking tributan en el IRPF como rendimiento del capital mobiliario en la base del ahorro. Se valoran al precio de mercado en el momento de recibirlas.
 
+Te explico en detalle cómo declarar todas tus operaciones con criptomonedas en la [guía de Bitcoin y fiscalidad en España](/blog/bitcoin-fiscalidad-espana-2025).
+
 Cuando vendes las criptomonedas obtenidas por staking, se genera una ganancia o pérdida patrimonial adicional. El valor de adquisición es el precio al que se valoraron cuando las recibiste.
 
 Es un lío contable, sí. Llevar un registro detallado de todas las recompensas recibidas (fecha, cantidad, valor en euros) es fundamental para la declaración de la renta.
+
+El registro contable del staking es lo que más pereza da y lo más importante para no tener problemas con Hacienda. Cada vez que recibes recompensas tienes que anotar: fecha, cantidad recibida y precio de mercado en ese momento en euros. Ese precio de mercado es tu valor de adquisición para cuando vendas esas recompensas. Si usas Koinly o CoinTracking, pueden importar automáticamente las recompensas de la mayoría de wallets y exchanges, te ahorras horas de trabajo manual.
 
 ## ¿Merece la pena?
 
 Si ya tienes criptomonedas y piensas mantenerlas a largo plazo, el staking tiene sentido. Es dinero que de otra forma estaría parado.
 
 Pero no te lances a comprar criptomonedas solo por las recompensas de staking. Un 5% de rentabilidad no compensa si el activo subyacente puede caer un 70%. El staking es un complemento, no un motivo de compra.
+
+Si quieres entender mejor las diferencias entre ETH y BTC antes de decidir en cuál hacer staking, aquí tienes la [guía sobre Ethereum vs Bitcoin](/blog/ethereum-que-es-diferencias-bitcoin).
+
+Mi respuesta honesta: si ya tienes ETH o SOL y tu plan es mantenerlos más de 2 años, el staking es una decisión obvia. Si estás pensando en comprar cripto específicamente para hacer staking, no lo hagas, el riesgo del activo subyacente es infinitamente mayor que las recompensas. Y si decides hacerlo, empieza con liquid staking en Lido o staking directo en Kraken para cantidades pequeñas antes de meterte en cosas más complejas.
 
 ## Referencias
 
