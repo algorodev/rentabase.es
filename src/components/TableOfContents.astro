@@ -1,17 +1,30 @@
 ---
-/** Tabla de contenidos generada automáticamente desde los headings del artículo */
+/**
+ * Tabla de contenidos. Dos variantes:
+ *  - `inline` (default): bloque con fondo blanco visible solo en < lg.
+ *  - `sidebar`: barra lateral sticky visible solo en lg+.
+ *
+ * En sidebar, el item correspondiente a la sección visible se marca activo
+ * mediante IntersectionObserver.
+ */
 import type { MarkdownHeading } from 'astro';
 
 interface Props {
   headings: MarkdownHeading[];
+  variant?: 'inline' | 'sidebar';
 }
 
-const { headings } = Astro.props;
+const { headings, variant = 'inline' } = Astro.props;
 const toc = headings.filter((h) => h.depth === 2);
+
+const isSidebar = variant === 'sidebar';
 ---
 
-{toc.length > 2 && (
-  <nav class="mb-10 p-6 bg-white rounded-xl border border-texto/8 shadow-sm" aria-label="Tabla de contenidos">
+{toc.length > 2 && !isSidebar && (
+  <nav
+    class="toc-inline lg:hidden mb-10 p-6 bg-white rounded-xl border border-texto/8 shadow-sm"
+    aria-label="Tabla de contenidos"
+  >
     <h2 class="font-display text-lg font-bold mb-4 flex items-center gap-2">
       <svg class="w-5 h-5 text-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h10M4 18h7" />
@@ -23,6 +36,7 @@ const toc = headings.filter((h) => h.depth === 2);
         <li>
           <a
             href={"#" + heading.slug}
+            data-toc-link={heading.slug}
             class="group flex items-start gap-3 text-sm text-texto/60 hover:text-verde transition-colors"
           >
             <span class="shrink-0 w-6 h-6 rounded-full bg-verde/8 text-verde text-xs font-semibold flex items-center justify-center group-hover:bg-verde group-hover:text-white transition-all">
@@ -34,15 +48,57 @@ const toc = headings.filter((h) => h.depth === 2);
       ))}
     </ol>
   </nav>
+)}
 
+{toc.length > 2 && isSidebar && (
+  <nav
+    class="toc-sidebar hidden lg:block"
+    aria-label="Tabla de contenidos"
+  >
+    <p class="text-xs font-semibold uppercase tracking-widest text-texto/55 mb-4">En este artículo</p>
+    <ol class="space-y-1 border-l border-texto/10">
+      {toc.map((heading) => (
+        <li>
+          <a
+            href={"#" + heading.slug}
+            data-toc-link={heading.slug}
+            class="toc-link block pl-4 -ml-px py-1.5 text-sm leading-snug text-texto/60 border-l border-transparent hover:text-verde hover:border-verde/40 transition-colors"
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<style is:global>
+  .toc-link.is-active {
+    color: #283F3B;
+    border-left-color: #283F3B;
+    font-weight: 600;
+  }
+</style>
+
+{toc.length > 2 && (
   <script>
-    /** Scroll suave explícito para enlaces de la TOC, respetando prefers-reduced-motion */
-    const tocLinks = document.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Tabla de contenidos"] a[href^="#"]');
+    /** Scroll suave + highlight activo de la sección visible.
+     *  Guard contra doble inicialización porque el componente se renderiza dos veces
+     *  (variant inline + variant sidebar) en cada artículo. */
+    // @ts-expect-error custom flag on window
+    if (window.__tocInit) {
+      // already initialized
+    } else {
+      // @ts-expect-error custom flag on window
+      window.__tocInit = true;
+
+    const tocLinks = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // Smooth scroll
     tocLinks.forEach((link) => {
       link.addEventListener('click', (event) => {
-        const id = link.getAttribute('href')?.slice(1);
+        const id = link.dataset.tocLink;
         if (!id) return;
         const target = document.getElementById(id);
         if (!target) return;
@@ -54,5 +110,44 @@ const toc = headings.filter((h) => h.depth === 2);
         history.pushState(null, '', '#' + id);
       });
     });
+
+    // Active section tracking (solo si hay variant sidebar en DOM)
+    const sidebarLinks = document.querySelectorAll<HTMLAnchorElement>('.toc-sidebar [data-toc-link]');
+    if (sidebarLinks.length > 0) {
+      const headings = Array.from(document.querySelectorAll<HTMLHeadingElement>('.article-content h2[id]'));
+      const linkBySlug = new Map<string, HTMLAnchorElement>();
+      sidebarLinks.forEach((l) => {
+        if (l.dataset.tocLink) linkBySlug.set(l.dataset.tocLink, l);
+      });
+
+      let activeSlug: string | null = null;
+      const setActive = (slug: string | null) => {
+        if (slug === activeSlug) return;
+        if (activeSlug) linkBySlug.get(activeSlug)?.classList.remove('is-active');
+        if (slug) linkBySlug.get(slug)?.classList.add('is-active');
+        activeSlug = slug;
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          // Find the top-most visible heading
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          if (visible.length > 0) {
+            setActive(visible[0].target.id);
+          } else {
+            // Fall back: pick the heading just above the viewport
+            const above = headings
+              .filter((h) => h.getBoundingClientRect().top < 100)
+              .pop();
+            setActive(above?.id ?? null);
+          }
+        },
+        { rootMargin: '-80px 0px -65% 0px', threshold: 0 }
+      );
+      headings.forEach((h) => observer.observe(h));
+    }
+    } // end guard
   </script>
 )}
