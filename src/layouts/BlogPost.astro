@@ -7,6 +7,7 @@ import ReadingProgress from '../components/ReadingProgress.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import NewsletterCTA from '../components/NewsletterCTA.astro';
 import RelatedPosts from '../components/RelatedPosts.astro';
+import ShareButtons from '../components/ShareButtons.astro';
 import { generateArticleJsonLd, generateBreadcrumbJsonLd } from '../utils/seo';
 import type { MarkdownHeading } from 'astro';
 
@@ -136,6 +137,9 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
         </div>
       </footer>
     )}
+
+    <!-- Botones de compartir -->
+    <ShareButtons url={`/blog/${post.slug}/`} title={title} />
 
     <!-- Artículos relacionados -->
     <RelatedPosts current={post} />
