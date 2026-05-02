@@ -1,11 +1,13 @@
 ---
-/** Badge de categoría con color diferenciado por tema */
+/** Badge de categoría con color diferenciado por tema. Si recibe `href`, se
+ *  renderiza como enlace (filtra el listado del blog por esa categoría). */
 
 interface Props {
   category: 'inversion' | 'ahorro' | 'cripto' | 'fiscalidad';
+  href?: string;
 }
 
-const { category } = Astro.props;
+const { category, href } = Astro.props;
 
 const categoryConfig: Record<string, { label: string; classes: string }> = {
   inversion: { label: 'Inversión', classes: 'bg-verde/10 text-verde' },
@@ -15,8 +17,20 @@ const categoryConfig: Record<string, { label: string; classes: string }> = {
 };
 
 const config = categoryConfig[category];
+const baseClasses = 'inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full';
+const linkClasses = 'transition-transform hover:-translate-y-0.5 hover:shadow-sm';
 ---
 
-<span class:list={['inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full', config.classes]}>
-  {config.label}
-</span>
+{href ? (
+  <a
+    href={href}
+    class:list={[baseClasses, linkClasses, config.classes]}
+    aria-label={`Ver artículos de ${config.label}`}
+  >
+    {config.label}
+  </a>
+) : (
+  <span class:list={[baseClasses, config.classes]}>
+    {config.label}
+  </span>
+)}
