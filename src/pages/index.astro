@@ -50,43 +50,169 @@ const categoryIcons = {
       </svg>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 pt-16 pb-16 md:pt-28 md:pb-24 relative z-10">
-      <div class="max-w-3xl">
-        <span class="inline-block px-3 py-1 bg-verde/8 text-verde rounded-full text-xs font-semibold uppercase tracking-wider mb-6 animate-fade-in">
-          Finanzas personales en espa&ntilde;ol
-        </span>
-        <h1 class="font-display text-5xl md:text-7xl font-bold leading-[1.1] mb-6 animate-fade-up">
-          Tu dinero merece<br />
-          <span class="text-verde relative">
-            decisiones informadas
-            <svg class="absolute -bottom-2 left-0 w-full h-3 text-verde/20" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M0 9c60-9 120-9 150 0s90 9 150 0" stroke="currentColor" stroke-width="3" fill="none" />
-            </svg>
+    <div class="max-w-6xl mx-auto px-4 pt-16 pb-16 md:pt-24 md:pb-24 relative z-10">
+      <div class="grid lg:grid-cols-[1.25fr_1fr] gap-10 lg:gap-12 items-center">
+        <!-- Copy -->
+        <div>
+          <span class="inline-block px-3 py-1 bg-verde/8 text-verde rounded-full text-xs font-semibold uppercase tracking-wider mb-6 animate-fade-in">
+            Finanzas personales en espa&ntilde;ol
           </span>
-        </h1>
-        <p class="text-lg md:text-xl text-texto/65 leading-relaxed max-w-2xl animate-fade-up" style="animation-delay: 0.15s">
-          Inversión, ahorro, fiscalidad y criptomonedas explicados de forma clara.
-          Información práctica para gestionar tus finanzas en España.
-        </p>
-        <div class="flex flex-wrap gap-4 mt-10 animate-fade-up" style="animation-delay: 0.3s">
-          <a
-            href="/blog"
-            class="inline-flex items-center gap-2 px-7 py-3.5 bg-verde text-white font-semibold rounded-xl hover:bg-verde/90 transition-all hover:shadow-lg hover:shadow-verde/20 hover:-translate-y-0.5"
-          >
-            Explorar artículos
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-          <a
-            href="/sobre-nosotros"
-            class="inline-flex items-center gap-2 px-7 py-3.5 border border-texto/15 text-texto/70 font-medium rounded-xl hover:border-verde/30 hover:text-verde transition-all"
-          >
-            Sobre nosotros
-          </a>
+          <h1 class="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6 animate-fade-up">
+            Tu dinero merece<br />
+            <span class="text-verde relative">
+              decisiones informadas
+              <svg class="absolute -bottom-2 left-0 w-full h-3 text-verde/25" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0 9c60-9 120-9 150 0s90 9 150 0" stroke="currentColor" stroke-width="3" fill="none" />
+              </svg>
+            </span>
+          </h1>
+          <p class="text-lg md:text-xl text-texto/65 leading-relaxed max-w-xl animate-fade-up" style="animation-delay: 0.15s">
+            Inversión, ahorro, fiscalidad y criptomonedas explicados de forma clara.
+            Información práctica para gestionar tus finanzas en España.
+          </p>
+          <div class="flex flex-wrap gap-3 mt-10 animate-fade-up" style="animation-delay: 0.3s">
+            <a
+              href="/blog"
+              class="inline-flex items-center gap-2 px-6 py-3.5 bg-verde text-white font-semibold rounded-xl hover:bg-verde/90 transition-all hover:shadow-lg hover:shadow-verde/20 hover:-translate-y-0.5"
+            >
+              Explorar artículos
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+            <a
+              href="/calculadoras"
+              class="inline-flex items-center gap-2 px-6 py-3.5 border border-texto/15 text-texto/70 font-medium rounded-xl hover:border-verde/30 hover:text-verde transition-all"
+            >
+              Probar calculadoras
+            </a>
+          </div>
         </div>
+
+        <!-- Visual: preview de calculadora -->
+        <a
+          href="/calculadoras"
+          class="hero-preview group hidden lg:block animate-fade-up"
+          style="animation-delay: 0.45s"
+          aria-label="Probar calculadoras"
+        >
+          <div class="relative rounded-3xl bg-white border border-texto/8 shadow-xl shadow-verde/[0.08] p-6 transition-transform duration-500 group-hover:-translate-y-1">
+            <!-- Header preview -->
+            <div class="flex items-center gap-2 mb-5">
+              <div class="flex gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-texto/10"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-texto/10"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-texto/10"></span>
+              </div>
+              <p class="ml-2 text-xs font-semibold uppercase tracking-widest text-texto/55">Interés compuesto</p>
+            </div>
+
+            <!-- Inputs simulados -->
+            <div class="space-y-3 mb-5">
+              <div class="flex items-baseline justify-between border-b border-texto/8 pb-2">
+                <span class="text-sm text-texto/60">Aportación mensual</span>
+                <span class="font-display font-bold text-texto">300 €</span>
+              </div>
+              <div class="flex items-baseline justify-between border-b border-texto/8 pb-2">
+                <span class="text-sm text-texto/60">Rentabilidad anual</span>
+                <span class="font-display font-bold text-texto">7 %</span>
+              </div>
+              <div class="flex items-baseline justify-between border-b border-texto/8 pb-2">
+                <span class="text-sm text-texto/60">Plazo</span>
+                <span class="font-display font-bold text-texto">30 años</span>
+              </div>
+            </div>
+
+            <!-- Resultado -->
+            <div class="rounded-2xl bg-gradient-to-br from-verde to-texto p-5 text-white relative overflow-hidden">
+              <div class="absolute -bottom-10 -right-8 w-32 h-32 rounded-full bg-acento/20 blur-2xl pointer-events-none" aria-hidden="true"></div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-acento/80 mb-1.5">Valor estimado</p>
+              <p class="font-display text-3xl md:text-4xl font-bold leading-none mb-1.5 tabular-nums">
+                <span data-counter data-target="365788">0</span> €
+              </p>
+              <p class="text-xs text-white/65">
+                Aportado: <span class="text-white/85">108.000 €</span>
+                · Ganancias: <span class="text-acento/95 font-semibold">257.788 €</span>
+              </p>
+            </div>
+
+            <!-- Mini gráfico -->
+            <div class="mt-5">
+              <svg viewBox="0 0 280 60" class="w-full h-12" aria-hidden="true">
+                <defs>
+                  <linearGradient id="hero-line-fill" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#283F3B" stop-opacity="0.18" />
+                    <stop offset="100%" stop-color="#283F3B" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0 56 C40 52 70 46 110 38 C150 30 180 22 220 14 C250 8 270 5 280 4 L280 60 L0 60 Z"
+                  fill="url(#hero-line-fill)"
+                />
+                <path
+                  d="M0 56 C40 52 70 46 110 38 C150 30 180 22 220 14 C250 8 270 5 280 4"
+                  stroke="#283F3B"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  fill="none"
+                  class="hero-line-path"
+                />
+              </svg>
+            </div>
+
+            <p class="mt-4 text-center text-xs font-semibold text-verde group-hover:gap-2 inline-flex items-center gap-1.5 w-full justify-center transition-all">
+              Probar la calculadora completa
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </p>
+          </div>
+
+          <!-- Halo de fondo decorativo -->
+          <div class="absolute -z-10 inset-0 -m-4 bg-gradient-to-br from-acento/30 to-verde/10 rounded-[2rem] blur-3xl opacity-40 pointer-events-none" aria-hidden="true"></div>
+        </a>
       </div>
     </div>
+
+    <style>
+      .hero-line-path {
+        stroke-dasharray: 320;
+        stroke-dashoffset: 320;
+        animation: draw-line 1.6s 0.7s cubic-bezier(0.25, 1, 0.3, 1) forwards;
+      }
+      @keyframes draw-line {
+        to { stroke-dashoffset: 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-line-path {
+          animation: none;
+          stroke-dashoffset: 0;
+        }
+      }
+    </style>
+
+    <script>
+      /** Animación de contador del resultado del hero */
+      const counter = document.querySelector<HTMLElement>('[data-counter]');
+      if (counter) {
+        const target = Number(counter.dataset.target ?? '0');
+        const duration = 1400;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const fmt = (n: number) => new Intl.NumberFormat('es-ES').format(Math.round(n));
+        if (reduceMotion) {
+          counter.textContent = fmt(target);
+        } else {
+          const start = performance.now();
+          const tick = (now: number) => {
+            const t = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - t, 3);
+            counter.textContent = fmt(target * eased);
+            if (t < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      }
+    </script>
 
     <!-- Gradiente inferior -->
     <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-fondo to-transparent" aria-hidden="true"></div>
