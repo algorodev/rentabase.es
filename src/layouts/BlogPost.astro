@@ -52,8 +52,8 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
 >
   <ReadingProgress />
 
-  <div class="max-w-7xl mx-auto px-4 lg:flex lg:gap-12 lg:items-start">
-    <article class="max-w-3xl mx-auto lg:mx-0 lg:flex-1 lg:min-w-0 pt-8 pb-16 md:pt-14">
+  <div class="max-w-6xl mx-auto px-4 lg:flex lg:justify-between lg:gap-12 lg:items-start">
+    <article class="max-w-3xl mx-auto lg:mx-0 lg:min-w-0 pt-8 pb-16 md:pt-14">
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 text-sm text-texto/55 mb-8 animate-fade-in" aria-label="Migas de pan">
       <a href="/" class="hover:text-verde transition-colors">Inicio</a>
@@ -155,7 +155,7 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
     </article>
 
     <!-- TOC sticky en desktop -->
-    <aside class="hidden lg:block lg:w-64 lg:shrink-0 pt-14">
+    <aside class="hidden lg:block lg:w-56 lg:shrink-0 pt-14">
       <div class="sticky top-24">
         <TableOfContents headings={headings} variant="sidebar" />
       </div>
