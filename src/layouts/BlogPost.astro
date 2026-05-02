@@ -52,8 +52,9 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
 >
   <ReadingProgress />
 
-  <div class="max-w-6xl mx-auto px-4 lg:flex lg:justify-between lg:gap-12 lg:items-start">
-    <article class="max-w-3xl mx-auto lg:mx-0 lg:min-w-0 pt-8 pb-16 md:pt-14">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="lg:flex lg:justify-between lg:gap-12 lg:items-start">
+    <article class="max-w-3xl mx-auto lg:mx-0 lg:min-w-0 pt-8 md:pt-14">
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 text-sm text-texto/55 mb-8 animate-fade-in" aria-label="Migas de pan">
       <a href="/" class="hover:text-verde transition-colors">Inicio</a>
@@ -144,14 +145,6 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
 
     <!-- Botones de compartir -->
     <ShareButtons url={`/blog/${post.slug}/`} title={title} />
-
-    <!-- Artículos relacionados -->
-    <RelatedPosts current={post} />
-
-    <!-- CTA Newsletter después del artículo -->
-    <div class="mt-14">
-      <NewsletterCTA />
-    </div>
     </article>
 
     <!-- TOC sticky en desktop -->
@@ -160,5 +153,13 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
         <TableOfContents headings={headings} variant="sidebar" />
       </div>
     </aside>
+    </div>
+
+    <!-- Secciones a ancho completo (max-w-6xl) -->
+    <RelatedPosts current={post} />
+
+    <div class="mt-14 pb-16">
+      <NewsletterCTA />
+    </div>
   </div>
 </BaseLayout>
