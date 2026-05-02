@@ -1,36 +1,30 @@
 ---
 /**
- * Componente de banner publicitario.
- * Muestra un placeholder visual mientras no hay AdSense activo.
- * Para activar AdSense: sustituir el contenido del div por el código de anuncio de Google.
+ * Unidad de anuncio AdSense in-article.
+ * Renderiza solo cuando se proporciona un `slot` (ID de unidad de AdSense).
+ * Sin slot, no renderiza nada — los anuncios pueden seguir apareciendo
+ * vía Auto Ads (configurable en el panel de AdSense).
  */
 
 interface Props {
   position: 'after-intro' | 'end-of-article';
+  slot?: string;
 }
 
-const { position } = Astro.props;
+const { position, slot } = Astro.props;
+const PUBLISHER_ID = 'ca-pub-8726052197962848';
 ---
 
-<aside
-  class="my-10 rounded-xl border border-dashed border-texto/10 bg-gradient-to-r from-texto/[0.015] to-texto/[0.03] p-8 text-center"
-  aria-label="Espacio publicitario"
-  data-ad-position={position}
->
-  <!--
-    ADSENSE: Cuando tengas aprobación, reemplaza este contenido con tu bloque de anuncio:
-    <ins class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-XXXX"
-      data-ad-slot="YYYY"
-      data-ad-format="auto"
-      data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  -->
-  <div class="flex items-center justify-center gap-2">
-    <svg class="w-4 h-4 text-texto/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-    </svg>
-    <p class="text-xs text-texto/20 select-none">Espacio reservado para publicidad</p>
-  </div>
-</aside>
+{slot && (
+  <aside class="my-10" aria-label="Publicidad" data-ad-position={position}>
+    <ins
+      class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client={PUBLISHER_ID}
+      data-ad-slot={slot}
+    ></ins>
+    <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </aside>
+)}
