@@ -34,4 +34,25 @@ const toc = headings.filter((h) => h.depth === 2);
       ))}
     </ol>
   </nav>
+
+  <script>
+    /** Scroll suave explícito para enlaces de la TOC, respetando prefers-reduced-motion */
+    const tocLinks = document.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Tabla de contenidos"] a[href^="#"]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    tocLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const id = link.getAttribute('href')?.slice(1);
+        if (!id) return;
+        const target = document.getElementById(id);
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({
+          behavior: reduceMotion ? 'auto' : 'smooth',
+          block: 'start',
+        });
+        history.pushState(null, '', '#' + id);
+      });
+    });
+  </script>
 )}
