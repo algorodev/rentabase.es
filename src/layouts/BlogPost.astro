@@ -51,7 +51,7 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
 
   <article class="max-w-3xl mx-auto px-4 pt-8 pb-16 md:pt-14">
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-sm text-texto/40 mb-8 animate-fade-in" aria-label="Migas de pan">
+    <nav class="flex items-center gap-2 text-sm text-texto/55 mb-8 animate-fade-in" aria-label="Migas de pan">
       <a href="/" class="hover:text-verde transition-colors">Inicio</a>
       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -75,20 +75,20 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
 
       <!-- Meta info -->
       <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-6 pt-6 border-t border-texto/8">
-        <div class="flex items-center gap-2 text-sm text-texto/50">
+        <div class="flex items-center gap-2 text-sm text-texto/60">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <time datetime={pubDate.toISOString()}>{formattedDate}</time>
         </div>
-        <div class="flex items-center gap-2 text-sm text-texto/50">
+        <div class="flex items-center gap-2 text-sm text-texto/60">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <span>{readingTime} min de lectura</span>
         </div>
         {updatedDate && (
-          <div class="flex items-center gap-2 text-sm text-texto/50">
+          <div class="flex items-center gap-2 text-sm text-texto/60">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
@@ -124,7 +124,7 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
     <!-- Tags -->
     {tags.length > 0 && (
       <footer class="mt-14 pt-8 border-t border-texto/10">
-        <p class="text-xs font-semibold uppercase tracking-wider text-texto/40 mb-3">Etiquetas</p>
+        <p class="text-xs font-semibold uppercase tracking-wider text-texto/55 mb-3">Etiquetas</p>
         <div class="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span class="px-3 py-1.5 text-sm bg-white border border-texto/8 text-texto/55 rounded-lg hover:border-verde/30 hover:text-verde transition-colors cursor-default">
