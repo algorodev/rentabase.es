@@ -18,7 +18,7 @@ export async function GET(context: APIContext) {
     const date = post.data.pubDate.toISOString().split('T')[0];
     content += `---\n\n`;
     content += `## ${post.data.title}\n\n`;
-    content += `- URL: https://rentabase.es/blog/${post.slug}/\n`;
+    content += `- URL: https://www.rentabase.es/blog/${post.slug}/\n`;
     content += `- Fecha: ${date}\n`;
     content += `- Categoría: ${post.data.category}\n`;
     content += `- Tags: ${post.data.tags.join(', ')}\n`;

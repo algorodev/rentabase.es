@@ -29,7 +29,7 @@ export interface SEOMeta {
   };
 }
 
-const SITE_URL = 'https://rentabase.es';
+const SITE_URL = 'https://www.rentabase.es';
 const DEFAULT_IMAGE = '/og-default.png';
 const LOGO_IMAGE = '/og-default.png';
 const SITE_NAME = 'RentaBase';

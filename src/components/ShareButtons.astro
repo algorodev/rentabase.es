@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { url, title } = Astro.props;
-const fullUrl = new URL(url, 'https://rentabase.es').href;
+const fullUrl = new URL(url, 'https://www.rentabase.es').href;
 const encodedUrl = encodeURIComponent(fullUrl);
 const encodedTitle = encodeURIComponent(title);
 

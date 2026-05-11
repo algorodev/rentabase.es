@@ -23,4 +23,4 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-Sitemap: https://rentabase.es/sitemap-index.xml
+Sitemap: https://www.rentabase.es/sitemap-index.xml

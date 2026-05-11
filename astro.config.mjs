@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 
-const SITE_URL = 'https://rentabase.es';
+const SITE_URL = 'https://www.rentabase.es';
 
 /**
  * Lee el frontmatter de cada post .mdx para construir un mapa

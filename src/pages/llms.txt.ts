@@ -30,10 +30,10 @@ export async function GET(context: APIContext) {
 
 ## Páginas principales
 
-- [Inicio](https://rentabase.es/)
-- [Blog](https://rentabase.es/blog/)
-- [Calculadoras financieras](https://rentabase.es/calculadoras/)
-- [Sobre nosotros](https://rentabase.es/sobre-nosotros/)
+- [Inicio](https://www.rentabase.es/)
+- [Blog](https://www.rentabase.es/blog/)
+- [Calculadoras financieras](https://www.rentabase.es/calculadoras/)
+- [Sobre nosotros](https://www.rentabase.es/sobre-nosotros/)
 
 ## Artículos del blog
 
@@ -43,7 +43,7 @@ export async function GET(context: APIContext) {
     const label = categoryLabels[category] || category;
     content += `### ${label}\n\n`;
     for (const post of posts) {
-      content += `- [${post.data.title}](https://rentabase.es/blog/${post.slug}/): ${post.data.description}\n`;
+      content += `- [${post.data.title}](https://www.rentabase.es/blog/${post.slug}/): ${post.data.description}\n`;
     }
     content += '\n';
   }
@@ -53,8 +53,8 @@ export async function GET(context: APIContext) {
 - Idioma: Español (España)
 - Temática: Finanzas personales, inversión pasiva, ETFs, fondos indexados, criptomonedas, fiscalidad española
 - Audiencia: Residentes en España interesados en gestionar sus finanzas e inversiones
-- Feed RSS: https://rentabase.es/rss.xml
-- Contenido completo para LLMs: https://rentabase.es/llms-full.txt
+- Feed RSS: https://www.rentabase.es/rss.xml
+- Contenido completo para LLMs: https://www.rentabase.es/llms-full.txt
 `;
 
   return new Response(content, {
