@@ -23,9 +23,12 @@ export interface SEOMeta {
   };
   twitter: {
     card: string;
+    site: string;
+    creator: string;
     title: string;
     description: string;
     image: string;
+    imageAlt: string;
   };
 }
 
@@ -35,6 +38,8 @@ const LOGO_IMAGE = '/og-default.png';
 const SITE_NAME = 'RentaBase';
 const SITE_DESCRIPTION =
   'Blog sobre inversión, ahorro, criptomonedas y fiscalidad en España';
+const TWITTER_HANDLE = '@RentaBase';
+const TWITTER_URL = 'https://x.com/RentaBase';
 
 /** Asegura trailing slash en las URLs para consistencia con el sitemap */
 function ensureTrailingSlash(url: string): string {
@@ -66,9 +71,12 @@ export function generateSEO({
     },
     twitter: {
       card: 'summary_large_image',
+      site: TWITTER_HANDLE,
+      creator: TWITTER_HANDLE,
       title: fullTitle,
       description,
       image: ogImage,
+      imageAlt: title,
     },
   };
 }
@@ -168,7 +176,7 @@ export function generateOrganizationJsonLd() {
       '@type': 'ImageObject',
       url: new URL(LOGO_IMAGE, SITE_URL).href,
     },
-    sameAs: [],
+    sameAs: [TWITTER_URL],
   };
 }
 
