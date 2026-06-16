@@ -52,42 +52,18 @@
       </button>
     </form>
     <p class="text-xs text-white/40 mt-3">Sin spam. Cancela cuando quieras.</p>
-    <p data-nl-success class="hidden text-sm font-semibold text-acento mt-2">
-      ¡Gracias! Revisa tu bandeja de entrada para confirmar la suscripción.
-    </p>
   </div>
 </section>
 
 <script>
+  // Buttondown's embed endpoint requires Cloudflare Turnstile verification,
+  // which blocks direct fetch() calls. Fire the event when the browser's own
+  // HTML5 validation passes (valid email format) and the form submits normally
+  // to the new tab — standard practice for third-party newsletter endpoints.
   document.querySelectorAll<HTMLFormElement>('form[data-nl-form]').forEach((form) => {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
-      const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-      const successMsg = form.closest('section')?.querySelector<HTMLElement>('[data-nl-success]');
-      const email = emailInput?.value ?? '';
-      if (!email) return;
-
-      const originalText = submitBtn?.textContent ?? '';
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Enviando…'; }
-
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ email }).toString(),
-        });
-
-        if (res.ok) {
-          window.gtag?.('event', 'newsletter_signup', { method: 'website_form' });
-          if (submitBtn) { submitBtn.textContent = '¡Suscrito!'; }
-          if (successMsg) { successMsg.classList.remove('hidden'); }
-        } else {
-          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText; }
-        }
-      } catch {
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText; }
+    form.addEventListener('submit', () => {
+      if (form.checkValidity()) {
+        window.gtag?.('event', 'newsletter_signup', { method: 'website_form' });
       }
     });
   });
