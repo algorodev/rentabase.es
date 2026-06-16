@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 
 const fmt = (n: number) =>
   new Intl.NumberFormat('es-ES', {
@@ -44,6 +44,16 @@ export default function CalculadoraIRPF() {
   const [precioVenta, setPrecioVenta] = useState(15000);
   const [comisiones, setComisiones] = useState(20);
 
+  const interactedRef = useRef(false);
+  const completedRef = useRef(false);
+
+  const trackInteraction = useCallback(() => {
+    if (!interactedRef.current) {
+      interactedRef.current = true;
+      window.gtag?.('event', 'calculator_interaction', { calculator_name: 'irpf' });
+    }
+  }, []);
+
   const resultado = useMemo(() => {
     const compra = Math.max(0, precioCompra);
     const venta = Math.max(0, precioVenta);
@@ -65,6 +75,13 @@ export default function CalculadoraIRPF() {
     };
   }, [precioCompra, precioVenta, comisiones]);
 
+  useEffect(() => {
+    if (interactedRef.current && !completedRef.current) {
+      completedRef.current = true;
+      window.gtag?.('event', 'calculator_completed', { calculator_name: 'irpf' });
+    }
+  }, [resultado.gananciaBruta]);
+
   return (
     <div className="grid md:grid-cols-2 gap-8">
       <div className="space-y-4">
@@ -76,7 +93,7 @@ export default function CalculadoraIRPF() {
             type="number"
             min={0}
             value={precioCompra}
-            onChange={(e) => setPrecioCompra(Math.max(0, Number(e.target.value)))}
+            onChange={(e) => { trackInteraction(); setPrecioCompra(Math.max(0, Number(e.target.value))); }}
             className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
           />
         </div>
@@ -88,7 +105,7 @@ export default function CalculadoraIRPF() {
             type="number"
             min={0}
             value={precioVenta}
-            onChange={(e) => setPrecioVenta(Math.max(0, Number(e.target.value)))}
+            onChange={(e) => { trackInteraction(); setPrecioVenta(Math.max(0, Number(e.target.value))); }}
             className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
           />
         </div>
@@ -100,7 +117,7 @@ export default function CalculadoraIRPF() {
             type="number"
             min={0}
             value={comisiones}
-            onChange={(e) => setComisiones(Math.max(0, Number(e.target.value)))}
+            onChange={(e) => { trackInteraction(); setComisiones(Math.max(0, Number(e.target.value))); }}
             className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
           />
         </div>

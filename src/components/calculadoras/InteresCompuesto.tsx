@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import {
   BarChart,
   Bar,
@@ -23,6 +23,16 @@ export default function InteresCompuesto() {
   const [aportacion, setAportacion] = useState(200);
   const [rentabilidad, setRentabilidad] = useState(7);
   const [anos, setAnos] = useState(20);
+
+  const interactedRef = useRef(false);
+  const completedRef = useRef(false);
+
+  const trackInteraction = useCallback(() => {
+    if (!interactedRef.current) {
+      interactedRef.current = true;
+      window.gtag?.('event', 'calculator_interaction', { calculator_name: 'interes-compuesto' });
+    }
+  }, []);
 
   const { totalAportado, valorFinal, ganancias, datos } = useMemo(() => {
     const r = clamp(rentabilidad, 0, 100) / 12 / 100;
@@ -60,6 +70,13 @@ export default function InteresCompuesto() {
     };
   }, [capital, aportacion, rentabilidad, anos]);
 
+  useEffect(() => {
+    if (interactedRef.current && !completedRef.current) {
+      completedRef.current = true;
+      window.gtag?.('event', 'calculator_completed', { calculator_name: 'interes-compuesto' });
+    }
+  }, [valorFinal]);
+
   return (
     <div className="grid md:grid-cols-2 gap-8">
       <div className="space-y-4">
@@ -72,7 +89,7 @@ export default function InteresCompuesto() {
             min={0}
             max={10000000}
             value={capital}
-            onChange={(e) => setCapital(Math.max(0, Number(e.target.value)))}
+            onChange={(e) => { trackInteraction(); setCapital(Math.max(0, Number(e.target.value))); }}
             className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
           />
         </div>
@@ -85,7 +102,7 @@ export default function InteresCompuesto() {
             min={0}
             max={100000}
             value={aportacion}
-            onChange={(e) => setAportacion(Math.max(0, Number(e.target.value)))}
+            onChange={(e) => { trackInteraction(); setAportacion(Math.max(0, Number(e.target.value))); }}
             className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
           />
         </div>
@@ -99,9 +116,10 @@ export default function InteresCompuesto() {
             max={100}
             step={0.1}
             value={rentabilidad}
-            onChange={(e) =>
-              setRentabilidad(clamp(Number(e.target.value), 0, 100))
-            }
+            onChange={(e) => {
+              trackInteraction();
+              setRentabilidad(clamp(Number(e.target.value), 0, 100));
+            }}
             className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
           />
         </div>
@@ -114,7 +132,7 @@ export default function InteresCompuesto() {
             min={1}
             max={50}
             value={anos}
-            onChange={(e) => setAnos(clamp(Number(e.target.value), 1, 50))}
+            onChange={(e) => { trackInteraction(); setAnos(clamp(Number(e.target.value), 1, 50)); }}
             className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
           />
         </div>

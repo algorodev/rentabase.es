@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import {
   LineChart,
   Line,
@@ -25,6 +25,16 @@ export default function ComparadorFondoETF() {
   const [terFondo, setTerFondo] = useState(0.2);
   const [terETF, setTerETF] = useState(0.12);
   const [comisionETF, setComisionETF] = useState(2);
+
+  const interactedRef = useRef(false);
+  const completedRef = useRef(false);
+
+  const trackInteraction = useCallback(() => {
+    if (!interactedRef.current) {
+      interactedRef.current = true;
+      window.gtag?.('event', 'calculator_interaction', { calculator_name: 'fondo-vs-etf' });
+    }
+  }, []);
 
   const resultado = useMemo(() => {
     const inv = Math.max(0, inversionMensual);
@@ -69,6 +79,13 @@ export default function ComparadorFondoETF() {
     return { datos, valorFondo, valorETF, diferencia, costeComisiones, anos: a };
   }, [inversionMensual, anos, rentabilidadBruta, terFondo, terETF, comisionETF]);
 
+  useEffect(() => {
+    if (interactedRef.current && !completedRef.current) {
+      completedRef.current = true;
+      window.gtag?.('event', 'calculator_completed', { calculator_name: 'fondo-vs-etf' });
+    }
+  }, [resultado.diferencia]);
+
   const ganaETF = resultado.diferencia > 0;
 
   return (
@@ -84,9 +101,10 @@ export default function ComparadorFondoETF() {
               min={0}
               max={100000}
               value={inversionMensual}
-              onChange={(e) =>
-                setInversionMensual(Math.max(0, Number(e.target.value)))
-              }
+              onChange={(e) => {
+                trackInteraction();
+                setInversionMensual(Math.max(0, Number(e.target.value)));
+              }}
               className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
             />
           </div>
@@ -99,7 +117,7 @@ export default function ComparadorFondoETF() {
               min={1}
               max={50}
               value={anos}
-              onChange={(e) => setAnos(clamp(Number(e.target.value), 1, 50))}
+              onChange={(e) => { trackInteraction(); setAnos(clamp(Number(e.target.value), 1, 50)); }}
               className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
             />
           </div>
@@ -113,9 +131,10 @@ export default function ComparadorFondoETF() {
               max={100}
               step={0.1}
               value={rentabilidadBruta}
-              onChange={(e) =>
-                setRentabilidadBruta(clamp(Number(e.target.value), 0, 100))
-              }
+              onChange={(e) => {
+                trackInteraction();
+                setRentabilidadBruta(clamp(Number(e.target.value), 0, 100));
+              }}
               className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
             />
           </div>
@@ -130,9 +149,10 @@ export default function ComparadorFondoETF() {
                 max={10}
                 step={0.01}
                 value={terFondo}
-                onChange={(e) =>
-                  setTerFondo(clamp(Number(e.target.value), 0, 10))
-                }
+                onChange={(e) => {
+                  trackInteraction();
+                  setTerFondo(clamp(Number(e.target.value), 0, 10));
+                }}
                 className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
               />
             </div>
@@ -146,9 +166,10 @@ export default function ComparadorFondoETF() {
                 max={10}
                 step={0.01}
                 value={terETF}
-                onChange={(e) =>
-                  setTerETF(clamp(Number(e.target.value), 0, 10))
-                }
+                onChange={(e) => {
+                  trackInteraction();
+                  setTerETF(clamp(Number(e.target.value), 0, 10));
+                }}
                 className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
               />
             </div>
@@ -163,9 +184,10 @@ export default function ComparadorFondoETF() {
               max={100}
               step={0.5}
               value={comisionETF}
-              onChange={(e) =>
-                setComisionETF(Math.max(0, Number(e.target.value)))
-              }
+              onChange={(e) => {
+                trackInteraction();
+                setComisionETF(Math.max(0, Number(e.target.value)));
+              }}
               className="w-full rounded-lg border border-texto/10 bg-white px-4 py-2.5 text-texto focus:border-verde focus:ring-1 focus:ring-verde outline-none transition"
             />
           </div>
