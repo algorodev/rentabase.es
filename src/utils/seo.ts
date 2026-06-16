@@ -41,9 +41,11 @@ const SITE_DESCRIPTION =
 const TWITTER_HANDLE = '@RentaBase';
 const TWITTER_URL = 'https://x.com/RentaBase';
 
-/** Asegura trailing slash en las URLs para consistencia con el sitemap */
-function ensureTrailingSlash(url: string): string {
-  return url.endsWith('/') ? url : `${url}/`;
+/** Normaliza la URL canónica: elimina trailing slash salvo en la raíz del sitio */
+function normalizeCanonicalURL(path: string): string {
+  const resolved = new URL(path, SITE_URL).href;
+  if (resolved === `${SITE_URL}/`) return resolved;
+  return resolved.endsWith('/') ? resolved.slice(0, -1) : resolved;
 }
 
 /** Genera todos los meta tags SEO necesarios */
@@ -55,7 +57,7 @@ export function generateSEO({
   type = 'website',
 }: SEOProps): SEOMeta {
   const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
-  const canonicalURL = ensureTrailingSlash(new URL(url, SITE_URL).href);
+  const canonicalURL = normalizeCanonicalURL(url);
   const ogImage = image ? new URL(image, SITE_URL).href : new URL(DEFAULT_IMAGE, SITE_URL).href;
 
   return {
@@ -90,7 +92,7 @@ export function generateArticleJsonLd({
   publishedDate,
   modifiedDate,
 }: SEOProps) {
-  const canonicalURL = ensureTrailingSlash(new URL(url ?? '', SITE_URL).href);
+  const canonicalURL = normalizeCanonicalURL(url ?? '');
   const imageURL = image
     ? new URL(image, SITE_URL).href
     : new URL(DEFAULT_IMAGE, SITE_URL).href;
@@ -138,7 +140,7 @@ export function generateBreadcrumbJsonLd(
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      item: ensureTrailingSlash(new URL(item.url, SITE_URL).href),
+      item: normalizeCanonicalURL(item.url),
     })),
   };
 }
@@ -198,7 +200,7 @@ export function generateCollectionPageJsonLd({
     image?: string;
   }>;
 }) {
-  const canonicalURL = ensureTrailingSlash(new URL(url, SITE_URL).href);
+  const canonicalURL = normalizeCanonicalURL(url);
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -217,7 +219,7 @@ export function generateCollectionPageJsonLd({
       itemListElement: posts.map((p, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: ensureTrailingSlash(new URL(`/blog/${p.slug}`, SITE_URL).href),
+        url: normalizeCanonicalURL(`/blog/${p.slug}`),
         name: p.title,
       })),
     },
@@ -234,7 +236,7 @@ export function generateAboutPageJsonLd({
   name: string;
   description: string;
 }) {
-  const canonicalURL = ensureTrailingSlash(new URL(url, SITE_URL).href);
+  const canonicalURL = normalizeCanonicalURL(url);
   return {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
@@ -268,7 +270,7 @@ export function generateCalculatorsJsonLd({
   description: string;
   calculators: Array<{ id: string; label: string; description: string }>;
 }) {
-  const canonicalURL = ensureTrailingSlash(new URL(url, SITE_URL).href);
+  const canonicalURL = normalizeCanonicalURL(url);
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
