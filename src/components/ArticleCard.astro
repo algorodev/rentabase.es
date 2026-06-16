@@ -39,7 +39,7 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
     )}
     <!-- Badge flotante (enlace independiente, encima del card link) -->
     <div class="absolute top-4 left-4 z-10">
-      <CategoryBadge category={category} href={`/blog?categoria=${category}`} />
+      <CategoryBadge category={category} href={`/blog/?categoria=${category}`} />
     </div>
   </div>
 
@@ -55,7 +55,7 @@ const formattedDate = pubDate.toLocaleDateString('es-ES', {
 
     <h3 class="font-display text-lg font-bold leading-snug mb-2 line-clamp-2">
       <a
-        href={"/blog/" + post.slug}
+        href={"/blog/" + post.slug + "/"}
         class="card-link group-hover:text-verde transition-colors after:absolute after:inset-0 after:content-['']"
       >
         {title}

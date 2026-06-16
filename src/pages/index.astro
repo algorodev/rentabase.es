@@ -72,7 +72,7 @@ const categoryIcons = {
           </p>
           <div class="flex flex-wrap gap-3 mt-10 animate-fade-up" style="animation-delay: 0.3s">
             <a
-              href="/blog"
+              href="/blog/"
               class="inline-flex items-center gap-2 px-6 py-3.5 bg-verde text-white font-semibold rounded-xl hover:bg-verde/90 transition-all hover:shadow-lg hover:shadow-verde/20 hover:-translate-y-0.5"
             >
               Explorar artículos
@@ -81,7 +81,7 @@ const categoryIcons = {
               </svg>
             </a>
             <a
-              href="/calculadoras"
+              href="/calculadoras/"
               class="inline-flex items-center gap-2 px-6 py-3.5 border border-texto/15 text-texto/70 font-medium rounded-xl hover:border-verde/30 hover:text-verde transition-all"
             >
               Probar calculadoras
@@ -91,7 +91,7 @@ const categoryIcons = {
 
         <!-- Visual: preview de calculadora -->
         <a
-          href="/calculadoras"
+          href="/calculadoras/"
           class="hero-preview group hidden lg:block animate-fade-up"
           style="animation-delay: 0.45s"
           aria-label="Probar calculadoras"
@@ -222,7 +222,7 @@ const categoryIcons = {
   {featuredPost && (
     <section class="max-w-6xl mx-auto px-4 pb-16">
       <div class="reveal">
-        <a href={"/blog/" + featuredPost.slug} class="group block relative rounded-2xl bg-white border border-texto/8 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <a href={"/blog/" + featuredPost.slug + "/"} class="group block relative rounded-2xl bg-white border border-texto/8 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
           <div class="grid md:grid-cols-2 gap-0">
             <!-- Lado visual -->
             <div class="aspect-[4/3] md:aspect-auto relative overflow-hidden">
@@ -261,7 +261,7 @@ const categoryIcons = {
   <section class="max-w-6xl mx-auto px-4 pb-20">
     <div class="flex items-center justify-between mb-8 reveal">
       <h2 class="font-display text-2xl md:text-3xl font-bold">Últimos artículos</h2>
-      <a href="/blog" class="text-sm text-verde font-semibold hover:underline underline-offset-4 flex items-center gap-1">
+      <a href="/blog/" class="text-sm text-verde font-semibold hover:underline underline-offset-4 flex items-center gap-1">
         Ver todos
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -286,7 +286,7 @@ const categoryIcons = {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal-stagger">
       {categories.map((cat) => (
         <a
-          href={"/blog?categoria=" + cat}
+          href={"/blog/?categoria=" + cat}
           class="reveal group relative block p-6 rounded-xl bg-white border border-texto/8 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
         >
           <div class="w-10 h-10 rounded-lg bg-verde/8 flex items-center justify-center mb-4 group-hover:bg-verde group-hover:text-white transition-all duration-300">
