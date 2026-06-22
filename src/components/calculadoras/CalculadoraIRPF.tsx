@@ -11,7 +11,7 @@ const TRAMOS = [
   { limite: 50000, tipo: 0.21, etiqueta: '21 % (6.000 € – 50.000 €)' },
   { limite: 200000, tipo: 0.23, etiqueta: '23 % (50.000 € – 200.000 €)' },
   { limite: 300000, tipo: 0.27, etiqueta: '27 % (200.000 € – 300.000 €)' },
-  { limite: Infinity, tipo: 0.28, etiqueta: '28 % (más de 300.000 €)' },
+  { limite: Infinity, tipo: 0.30, etiqueta: '30 % (más de 300.000 €)' },
 ];
 
 function calcularIRPF(ganancia: number) {
