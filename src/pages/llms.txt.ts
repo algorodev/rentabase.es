@@ -7,6 +7,11 @@ export async function GET(context: APIContext) {
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
 
+  const noticias = await getCollection('noticias', ({ data }) => !data.draft);
+  const sortedNoticias = noticias.sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
   const categoryLabels: Record<string, string> = {
     inversion: 'Inversión',
     ahorro: 'Ahorro',
@@ -32,6 +37,7 @@ export async function GET(context: APIContext) {
 
 - [Inicio](https://www.rentabase.es/)
 - [Blog](https://www.rentabase.es/blog/)
+- [Noticias](https://www.rentabase.es/noticias/)
 - [Calculadoras financieras](https://www.rentabase.es/calculadoras/)
 - [Sobre nosotros](https://www.rentabase.es/sobre-nosotros/)
 
@@ -48,12 +54,19 @@ export async function GET(context: APIContext) {
     content += '\n';
   }
 
+  content += `## Noticias (resumen semanal)\n\n`;
+  for (const noticia of sortedNoticias) {
+    content += `- [${noticia.data.title}](https://www.rentabase.es/noticias/${noticia.slug}/): ${noticia.data.description}\n`;
+  }
+  content += '\n';
+
   content += `## Información adicional
 
 - Idioma: Español (España)
 - Temática: Finanzas personales, inversión pasiva, ETFs, fondos indexados, criptomonedas, fiscalidad española
 - Audiencia: Residentes en España interesados en gestionar sus finanzas e inversiones
-- Feed RSS: https://www.rentabase.es/rss.xml
+- Feed RSS del blog: https://www.rentabase.es/rss.xml
+- Feed RSS de noticias: https://www.rentabase.es/noticias/rss.xml
 - Contenido completo para LLMs: https://www.rentabase.es/llms-full.txt
 `;
 

@@ -14,4 +14,18 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+const noticias = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    weekStart: z.coerce.date(),
+    weekEnd: z.coerce.date(),
+    tags: z.array(z.string()).default([]),
+    image: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, noticias };

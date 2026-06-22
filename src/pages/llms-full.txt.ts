@@ -7,10 +7,15 @@ export async function GET(context: APIContext) {
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
 
+  const noticias = await getCollection('noticias', ({ data }) => !data.draft);
+  const sortedNoticias = noticias.sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
   let content = `# RentaBase - Contenido completo
 
 > Blog sobre inversión, ahorro, criptomonedas y fiscalidad en España.
-> Este archivo contiene el contenido completo de todos los artículos publicados.
+> Este archivo contiene el contenido completo de todos los artículos y resúmenes de noticias publicados.
 
 `;
 
@@ -24,6 +29,17 @@ export async function GET(context: APIContext) {
     content += `- Tags: ${post.data.tags.join(', ')}\n`;
     content += `- Descripción: ${post.data.description}\n\n`;
     content += `${post.body}\n\n`;
+  }
+
+  for (const noticia of sortedNoticias) {
+    const date = noticia.data.pubDate.toISOString().split('T')[0];
+    content += `---\n\n`;
+    content += `## ${noticia.data.title}\n\n`;
+    content += `- URL: https://www.rentabase.es/noticias/${noticia.slug}/\n`;
+    content += `- Fecha: ${date}\n`;
+    content += `- Tags: ${noticia.data.tags.join(', ')}\n`;
+    content += `- Descripción: ${noticia.data.description}\n\n`;
+    content += `${noticia.body}\n\n`;
   }
 
   return new Response(content, {

@@ -10,17 +10,17 @@ import react from '@astrojs/react';
 const SITE_URL = 'https://www.rentabase.es';
 
 /**
- * Lee el frontmatter de cada post .mdx para construir un mapa
- * URL canónica → lastmod (updatedDate || pubDate || mtime).
+ * Lee el frontmatter de cada entrada .mdx de una content collection para
+ * construir un mapa URL canónica → lastmod (updatedDate || pubDate || mtime).
  */
-function buildBlogLastmodMap() {
+function buildLastmodMap(collectionDir, urlPrefix) {
   const here = dirname(fileURLToPath(import.meta.url));
-  const blogDir = join(here, 'src', 'content', 'blog');
+  const dir = join(here, 'src', 'content', collectionDir);
   const map = new Map();
 
   let files;
   try {
-    files = readdirSync(blogDir);
+    files = readdirSync(dir);
   } catch {
     return map;
   }
@@ -28,7 +28,7 @@ function buildBlogLastmodMap() {
   for (const file of files) {
     if (!file.endsWith('.mdx') && !file.endsWith('.md')) continue;
     const slug = file.replace(/\.mdx?$/, '');
-    const fullPath = join(blogDir, file);
+    const fullPath = join(dir, file);
     const raw = readFileSync(fullPath, 'utf8');
     const fmMatch = raw.match(/^---\n([\s\S]*?)\n---/);
 
@@ -47,16 +47,18 @@ function buildBlogLastmodMap() {
     }
     if (!lastmod) lastmod = statSync(fullPath).mtime.toISOString();
 
-    map.set(`${SITE_URL}/blog/${slug}/`, lastmod);
+    map.set(`${SITE_URL}${urlPrefix}/${slug}/`, lastmod);
   }
 
   return map;
 }
 
-const blogLastmod = buildBlogLastmodMap();
+const blogLastmod = buildLastmodMap('blog', '/blog');
+const noticiasLastmod = buildLastmodMap('noticias', '/noticias');
+const allLastmod = new Map([...blogLastmod, ...noticiasLastmod]);
 
-/** lastmod más reciente entre todos los posts (para home, blog index, etc.) */
-const latestLastmod = [...blogLastmod.values()].sort().pop();
+/** lastmod más reciente entre todo el contenido (para home, índices, etc.) */
+const latestLastmod = [...allLastmod.values()].sort().pop();
 
 export default defineConfig({
   site: SITE_URL,
@@ -65,7 +67,7 @@ export default defineConfig({
     mdx(),
     sitemap({
       serialize(item) {
-        const lastmod = blogLastmod.get(item.url) || latestLastmod;
+        const lastmod = allLastmod.get(item.url) || latestLastmod;
         return {
           ...item,
           lastmod,

@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoticiaCard from '../../components/NoticiaCard.astro';
+import {
+  generateCollectionPageJsonLd,
+  generateBreadcrumbJsonLd,
+} from '../../utils/seo';
+
+const allNoticias = (await getCollection('noticias', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const pageTitle = 'Noticias';
+const pageDescription =
+  'Resumen semanal de las noticias financieras más importantes en España: inversión, ahorro, fiscalidad y criptomonedas.';
+
+const collectionJsonLd = generateCollectionPageJsonLd({
+  url: '/noticias',
+  name: pageTitle,
+  description: pageDescription,
+  basePath: '/noticias',
+  posts: allNoticias.map((n) => ({
+    slug: n.slug,
+    title: n.data.title,
+    description: n.data.description,
+    pubDate: n.data.pubDate,
+    image: n.data.image,
+  })),
+});
+
+const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+  { name: 'Inicio', url: '/' },
+  { name: 'Noticias', url: '/noticias' },
+]);
+---
+
+<BaseLayout
+  seo={{
+    title: pageTitle,
+    description: pageDescription,
+    url: '/noticias',
+  }}
+  jsonLd={[collectionJsonLd, breadcrumbJsonLd]}
+>
+  <section class="max-w-6xl mx-auto px-4 py-12 md:py-16">
+    <!-- Cabecera -->
+    <header class="mb-10 animate-fade-up">
+      <h1 class="font-display text-4xl md:text-5xl font-bold mb-4">Noticias</h1>
+      <p class="text-lg text-texto/60 max-w-2xl">
+        Cada semana resumimos lo más relevante en inversión, ahorro, fiscalidad y
+        criptomonedas en España. Sin ruido diario, solo lo que importa.
+      </p>
+    </header>
+
+    {allNoticias.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {allNoticias.map((noticia) => (
+          <NoticiaCard noticia={noticia} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-20">
+        <p class="text-texto/65 text-lg font-medium mb-1">Aún no hay resúmenes publicados</p>
+        <p class="text-texto/55 text-sm">Vuelve la semana que viene para el primer resumen.</p>
+      </div>
+    )}
+  </section>
+</BaseLayout>

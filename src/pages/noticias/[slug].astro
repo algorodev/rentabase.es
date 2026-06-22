@@ -1,0 +1,23 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import NoticiaPost from '../../layouts/NoticiaPost.astro';
+
+export async function getStaticPaths() {
+  const noticias = await getCollection('noticias', ({ data }) => !data.draft);
+  return noticias.map((noticia) => ({
+    params: { slug: noticia.slug },
+    props: { noticia },
+  }));
+}
+
+interface Props {
+  noticia: CollectionEntry<'noticias'>;
+}
+
+const { noticia } = Astro.props;
+const { Content, headings } = await noticia.render();
+---
+
+<NoticiaPost noticia={noticia} headings={headings}>
+  <Content />
+</NoticiaPost>

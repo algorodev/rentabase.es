@@ -127,6 +127,52 @@ export function generateArticleJsonLd({
   };
 }
 
+/** Genera JSON-LD para un resumen semanal de noticias (NewsArticle) */
+export function generateNewsArticleJsonLd({
+  title,
+  description,
+  image,
+  url,
+  publishedDate,
+  modifiedDate,
+}: SEOProps) {
+  const canonicalURL = ensureTrailingSlash(new URL(url ?? '', SITE_URL).href);
+  const imageURL = image
+    ? new URL(image, SITE_URL).href
+    : new URL(DEFAULT_IMAGE, SITE_URL).href;
+  const logoURL = new URL(LOGO_IMAGE, SITE_URL).href;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: title,
+    description,
+    image: imageURL,
+    url: canonicalURL,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonicalURL,
+    },
+    datePublished: publishedDate,
+    dateModified: modifiedDate ?? publishedDate,
+    inLanguage: 'es-ES',
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: logoURL,
+      },
+    },
+  };
+}
+
 /** Genera JSON-LD para breadcrumbs */
 export function generateBreadcrumbJsonLd(
   items: { name: string; url: string }[]
@@ -186,6 +232,7 @@ export function generateCollectionPageJsonLd({
   name,
   description,
   posts,
+  basePath = '/blog',
 }: {
   url: string;
   name: string;
@@ -197,6 +244,7 @@ export function generateCollectionPageJsonLd({
     pubDate: Date;
     image?: string;
   }>;
+  basePath?: string;
 }) {
   const canonicalURL = ensureTrailingSlash(new URL(url, SITE_URL).href);
   return {
@@ -217,7 +265,7 @@ export function generateCollectionPageJsonLd({
       itemListElement: posts.map((p, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: ensureTrailingSlash(new URL(`/blog/${p.slug}`, SITE_URL).href),
+        url: ensureTrailingSlash(new URL(`${basePath}/${p.slug}`, SITE_URL).href),
         name: p.title,
       })),
     },

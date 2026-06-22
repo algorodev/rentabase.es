@@ -1,0 +1,177 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import AdBanner from '../components/AdBanner.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
+import ShareButtons from '../components/ShareButtons.astro';
+import AuthorBox from '../components/AuthorBox.astro';
+import NoticiaCard from '../components/NoticiaCard.astro';
+import { generateNewsArticleJsonLd, generateBreadcrumbJsonLd } from '../utils/seo';
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  noticia: CollectionEntry<'noticias'>;
+  headings: MarkdownHeading[];
+}
+
+const { noticia, headings } = Astro.props;
+const { title, description, pubDate, weekStart, weekEnd, tags, image } = noticia.data;
+
+const articleJsonLd = generateNewsArticleJsonLd({
+  title,
+  description,
+  image,
+  url: `/noticias/${noticia.slug}`,
+  publishedDate: pubDate.toISOString(),
+});
+
+const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+  { name: 'Inicio', url: '/' },
+  { name: 'Noticias', url: '/noticias' },
+  { name: title, url: `/noticias/${noticia.slug}` },
+]);
+
+/** Calcula el tiempo de lectura estimado */
+const words = noticia.body.split(/\s+/).length;
+const readingTime = Math.max(1, Math.ceil(words / 200));
+
+const formattedDate = pubDate.toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const weekRange = `${weekStart.toLocaleDateString('es-ES', { day: 'numeric' })} - ${weekEnd.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+
+/** Otras noticias semanales, ordenadas por fecha, excluyendo la actual */
+const otherNoticias = (await getCollection('noticias', ({ data }) => !data.draft))
+  .filter((n) => n.slug !== noticia.slug)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  seo={{ title, description, image, url: `/noticias/${noticia.slug}`, type: 'article', publishedDate: pubDate.toISOString() }}
+  jsonLd={[articleJsonLd, breadcrumbJsonLd]}
+>
+  <ReadingProgress />
+
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="lg:flex lg:justify-between lg:gap-12">
+    <article class="max-w-3xl mx-auto lg:mx-0 lg:min-w-0 pt-8 md:pt-14">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-sm text-texto/55 mb-8 animate-fade-in" aria-label="Migas de pan">
+      <a href="/" class="hover:text-verde transition-colors">Inicio</a>
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+      <a href="/noticias/" class="hover:text-verde transition-colors">Noticias</a>
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+      <span class="text-texto/60 truncate">{title}</span>
+    </nav>
+
+    <!-- Cabecera de la noticia -->
+    <header class="mb-10 animate-fade-up">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-acento/90 text-texto">
+          Resumen semanal &middot; {weekRange}
+        </span>
+      </div>
+      <h1 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.15] mb-5">
+        {title}
+      </h1>
+      <p class="text-lg text-texto/60 leading-relaxed max-w-2xl">{description}</p>
+
+      <!-- Meta info -->
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-6 pt-6 border-t border-texto/8">
+        <div class="flex items-center gap-2 text-sm text-texto/60">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-texto/60">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{readingTime} min de lectura</span>
+        </div>
+      </div>
+
+      {image && (
+        <img
+          src={image}
+          alt={title}
+          class="w-full rounded-xl mt-8 aspect-video object-cover shadow-sm"
+          loading="eager"
+        />
+      )}
+    </header>
+
+    <!-- Tabla de contenidos -->
+    <TableOfContents headings={headings} />
+
+    <!-- Anuncio después del encabezado -->
+    <AdBanner position="after-intro" />
+
+    <!-- Cuerpo del artículo -->
+    <div class="article-content">
+      <slot />
+    </div>
+
+    <!-- Anuncio al final del artículo -->
+    <AdBanner position="end-of-article" />
+
+    <!-- Tags -->
+    {tags.length > 0 && (
+      <footer class="mt-14 pt-8 border-t border-texto/10">
+        <p class="text-xs font-semibold uppercase tracking-wider text-texto/55 mb-3">Etiquetas</p>
+        <div class="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span class="px-3 py-1.5 text-sm bg-white border border-texto/8 text-texto/55 rounded-lg hover:border-verde/30 hover:text-verde transition-colors cursor-default">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      </footer>
+    )}
+
+    <!-- Caja de autor -->
+    <AuthorBox />
+
+    <!-- Botones de compartir -->
+    <ShareButtons url={`/noticias/${noticia.slug}/`} title={title} />
+    </article>
+
+    <!-- TOC sticky en desktop -->
+    <aside class="hidden lg:block lg:w-56 lg:shrink-0 pt-14">
+      <div class="sticky top-24">
+        <TableOfContents headings={headings} variant="sidebar" />
+      </div>
+    </aside>
+    </div>
+
+    <!-- Otras noticias semanales -->
+    {otherNoticias.length > 0 && (
+      <section class="mt-16 pt-12 border-t border-texto/10" aria-label="Otras noticias semanales">
+        <div class="flex items-baseline justify-between mb-6">
+          <h2 class="font-display text-2xl font-bold">Más resúmenes semanales</h2>
+          <a href="/noticias/" class="text-sm text-verde font-semibold hover:underline underline-offset-4">Ver todos &rarr;</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {otherNoticias.map((n) => (
+            <NoticiaCard noticia={n} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <div class="mt-14 pb-16">
+      <NewsletterCTA />
+    </div>
+  </div>
+</BaseLayout>
