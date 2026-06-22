@@ -10,9 +10,9 @@ import {
 const allNoticias = (await getCollection('noticias', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const pageTitle = 'Noticias';
+const pageTitle = 'Noticias financieras de España: resumen semanal';
 const pageDescription =
-  'Resumen semanal de las noticias financieras más importantes en España: inversión, ahorro, fiscalidad y criptomonedas.';
+  'Cada semana resumimos en pocos minutos lo que de verdad importa: BCE, Euríbor, inflación y mercados. Sin ruido, solo lo que afecta directamente a tu dinero.';
 
 const collectionJsonLd = generateCollectionPageJsonLd({
   url: '/noticias',
